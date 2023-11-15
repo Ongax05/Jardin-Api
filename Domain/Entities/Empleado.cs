@@ -18,6 +18,7 @@ namespace Domain.Entities
         public string? Apellido2 { get; set; }
         public int? Codigo_Jefe { get; set; }
         public Empleado? Jefe { get; set; }
+        public ICollection<Empleado>? Empleados { get; set; }
         public string? Puesto { get; set; }
     }
 }
