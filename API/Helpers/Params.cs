@@ -15,14 +15,5 @@ namespace API.Helpers
             get { return _pageIndex; }
             set { _pageIndex = (value <= 0) ? 1 : value; }
         }
-        private string _search;
-        public string Search
-        {
-            get { return _search  ; }
-            set { _search  = String.IsNullOrEmpty(value) ? "" : value.ToLower(); }
-        }
-        
-        
-        
     }
 }
