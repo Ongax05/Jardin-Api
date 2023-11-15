@@ -7,13 +7,14 @@ using Persistency;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-var logger = new LoggerConfiguration()
-					.ReadFrom.Configuration(builder.Configuration)
-					.Enrich.FromLogContext()
-					.CreateLogger();
+var logger = new LoggerConfiguration().ReadFrom
+    .Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
 
 //builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -23,6 +24,8 @@ builder.Services.ConfigureRateLimiting();
 builder.Services.AddAplicacionServices();
 builder.Services.ConfigureApiVersioning();
 builder.Services.AddJwt(builder.Configuration);
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApiDbContext>(options =>
 {
@@ -36,18 +39,18 @@ app.UseMiddleware<ExceptionMiddleware>();
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 using (var scope = app.Services.CreateScope())
 {
-	var services = scope.ServiceProvider;
-	var loggerFactory = services.GetRequiredService<ILoggerFactory>();
-	try
-	{
-		var context = services.GetRequiredService<ApiDbContext>();
-		await context.Database.MigrateAsync();
-	}
-	catch (Exception ex)
-	{
-		var _logger = loggerFactory.CreateLogger<Program>();
-		_logger.LogError(ex, "An exception occurred during migration");
-	}
+    var services = scope.ServiceProvider;
+    var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+    try
+    {
+        var context = services.GetRequiredService<ApiDbContext>();
+        await context.Database.MigrateAsync();
+    }
+    catch (Exception ex)
+    {
+        var _logger = loggerFactory.CreateLogger<Program>();
+        _logger.LogError(ex, "An exception occurred during migration");
+    }
 }
 app.UseCors("CorsPolicy");
 
