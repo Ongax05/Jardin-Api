@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Pago
+    public class Pago : StringBaseEntity
     {
-        public string PagoId { get; set; }
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }
         public string Forma_Pago { get; set; }

@@ -5,7 +5,7 @@ using Persistency;
 
 namespace Aplication.Repository;
 
-public class RolRepository : GenericRepository<Rol>, IRolRepository
+public class RolRepository : GenericIntRepository<Rol>, IRolRepository
 {
     private readonly ApiDbContext _context;
 

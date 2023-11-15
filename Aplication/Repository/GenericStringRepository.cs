@@ -2,13 +2,14 @@ using System.Linq.Expressions;
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 using Persistency;
 namespace Aplication.Repository;
-public class GenericIntRepository<T> : IGenericInt<T> where T : BaseEntity
+public class GenericStringRepository<T> : IGenericString<T> where T : StringBaseEntity
 {
     private readonly ApiDbContext _context;
 
-    public GenericIntRepository(ApiDbContext context)
+    public GenericStringRepository(ApiDbContext context)
     {
         _context = context;
     }
@@ -33,10 +34,6 @@ public class GenericIntRepository<T> : IGenericInt<T> where T : BaseEntity
             var registers = await _context.Set<T>().Skip((pageIndex -1) * pageSize).Take(pageSize).ToListAsync();
             return (totalRegisters, registers);
         }
-    public virtual async Task<T> GetByIdAsync(int id)
-    {
-        return await _context.Set<T>().FindAsync(id);
-    }
     public virtual async Task<T> GetByIdAsync(string id)
     {
        return await _context.Set<T>().FindAsync(id);

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistency;
 namespace Aplication.Repository;
-public class UserRepository : GenericRepository<User>, IUserRepository
+public class UserRepository : GenericIntRepository<User>, IUserRepository
 {
     private readonly ApiDbContext _context;
 
