@@ -1,0 +1,8 @@
+{
+    "conventionalCommits.scopes": [
+        "Domain",
+        "API",
+        "Aplication",
+        "Persistecy"
+    ]
+}
