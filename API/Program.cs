@@ -37,6 +37,8 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
+
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -51,6 +53,12 @@ using (var scope = app.Services.CreateScope())
         var _logger = loggerFactory.CreateLogger<Program>();
         _logger.LogError(ex, "An exception occurred during migration");
     }
+}
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 app.UseCors("CorsPolicy");
 

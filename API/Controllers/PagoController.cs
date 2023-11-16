@@ -46,7 +46,7 @@ namespace API.Controllers
         throw new NotImplementedException();
         }
         
-        [HttpGet]
+        [HttpGet("v1")]
         [MapToApiVersion("1.1")]
         public async Task<ActionResult<IEnumerable<PagoDto>>> Get1_1()
         {
