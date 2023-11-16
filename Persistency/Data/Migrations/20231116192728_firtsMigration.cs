@@ -111,7 +111,7 @@ namespace Persistency.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Descripcion = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Cantidad_Stock = table.Column<sbyte>(type: "tinyint", nullable: false),
+                    Cantidad_Stock = table.Column<short>(type: "smallint", nullable: false),
                     Precio_Venta = table.Column<decimal>(type: "decimal(15,2)", nullable: false),
                     Precio_Proveedor = table.Column<decimal>(type: "decimal(15,2)", nullable: false)
                 },
@@ -317,7 +317,7 @@ namespace Persistency.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Cantidad = table.Column<int>(type: "int", nullable: false),
                     Precio_Unidad = table.Column<decimal>(type: "decimal(15,2)", nullable: false),
-                    Numero_Linea = table.Column<sbyte>(type: "tinyint", nullable: false)
+                    Numero_Linea = table.Column<short>(type: "smallint", nullable: false)
                 },
                 constraints: table =>
                 {

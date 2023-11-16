@@ -111,8 +111,8 @@ namespace Persistency.Data.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Cantidad");
 
-                    b.Property<sbyte>("Numero_Linea")
-                        .HasColumnType("tinyint")
+                    b.Property<short>("Numero_Linea")
+                        .HasColumnType("smallint")
                         .HasColumnName("Numero_Linea");
 
                     b.Property<decimal>("Precio_Unidad")
@@ -323,8 +323,8 @@ namespace Persistency.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<sbyte>("Cantidad_Stock")
-                        .HasColumnType("tinyint")
+                    b.Property<short>("Cantidad_Stock")
+                        .HasColumnType("smallint")
                         .HasColumnName("Cantidad_Stock");
 
                     b.Property<string>("Descripcion")

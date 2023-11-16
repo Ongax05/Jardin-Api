@@ -19,7 +19,7 @@ namespace Persistency.Data.Configurations
             builder.Property(p=>p.Dimensiones).HasColumnName("Dimensiones").HasMaxLength(25).HasDefaultValue(null);
             builder.Property(p=>p.Proveedor).HasColumnName("Proveedor").HasMaxLength(50).HasDefaultValue(null);
             builder.Property(p=>p.Descripcion).HasColumnName("Descripcion").HasColumnType("longtext").HasDefaultValue(null);
-            builder.Property(p=>p.Cantidad_Stock).HasColumnName("Cantidad_Stock").HasColumnType("tinyint").IsRequired();
+            builder.Property(p=>p.Cantidad_Stock).HasColumnName("Cantidad_Stock").HasColumnType("smallint").IsRequired();
             builder.Property(p=>p.Precio_Venta).HasColumnName("Precio_Venta").HasColumnType("decimal(15,2)").IsRequired();
             builder.Property(p=>p.Precio_Proveedor).HasColumnName("Precio_Proveedor").HasColumnType("decimal(15,2)").IsRequired();
         }

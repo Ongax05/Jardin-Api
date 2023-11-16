@@ -17,7 +17,7 @@ namespace Persistency.Data.Configurations
             builder.HasOne(p=>p.Producto).WithMany(p=>p.Detalles_Pedidos).HasForeignKey(p=>p.ProductoId);
             builder.Property(p=>p.Cantidad).HasColumnName("Cantidad").HasColumnType("int").IsRequired();
             builder.Property(p=>p.Precio_Unidad).HasColumnName("Precio_Unidad").HasColumnType("decimal(15,2)").IsRequired();
-            builder.Property(p=>p.Numero_Linea).HasColumnName("Numero_Linea").HasColumnType("tinyint").IsRequired();
+            builder.Property(p=>p.Numero_Linea).HasColumnName("Numero_Linea").HasColumnType("smallint").IsRequired();
         }
     }
 }
