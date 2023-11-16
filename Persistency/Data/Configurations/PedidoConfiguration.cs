@@ -13,11 +13,11 @@ namespace Persistency.Data.Configurations
         public void Configure(EntityTypeBuilder<Pedido> builder)
         {
             builder.ToTable("Pedido");
-            builder.Property(p=>p.Fecha_Entrega).HasColumnName("Fecha_Entrega").HasColumnType("datetime").IsRequired();
-            builder.Property(p=>p.Fecha_Esperada).HasColumnName("Fecha_Esperada").HasColumnType("datetime").IsRequired();
             builder.Property(p=>p.Fecha_Pedido).HasColumnName("Fecha_Pedido").HasColumnType("datetime").IsRequired();
+            builder.Property(p=>p.Fecha_Esperada).HasColumnName("Fecha_Esperada").HasColumnType("datetime").IsRequired();
+            builder.Property(p=>p.Fecha_Entrega).HasColumnName("Fecha_Entrega").HasColumnType("datetime").IsRequired(false);
             builder.Property(p=>p.Estado).HasColumnName("Estado").HasMaxLength(15).HasDefaultValue(null);
-            builder.Property(p=>p.Comentarios).HasColumnName("Comentarios").HasMaxLength(255).IsRequired();
+            builder.Property(p=>p.Comentarios).HasColumnName("Comentarios").HasMaxLength(255).IsRequired(false);
             builder.HasOne(p=>p.Cliente).WithMany(p=>p.Pedidos).HasForeignKey(p=>p.ClienteId);
         }
     }

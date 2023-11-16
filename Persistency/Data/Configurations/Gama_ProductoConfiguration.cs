@@ -13,9 +13,9 @@ namespace Persistency.Data.Configurations
         public void Configure(EntityTypeBuilder<Gama_Producto> builder)
         {
             builder.ToTable("Gama_Producto");
-            builder.Property(p=>p.Descripcion_Texto).HasColumnName("Descripcion_Texto").HasColumnType("longtext").IsRequired();
-            builder.Property(p=>p.Descripcion_HTML).HasColumnName("Descripcion_HTML").HasColumnType("longtext").IsRequired();
-            builder.Property(p=>p.Imagen).HasColumnName("Imagen").HasMaxLength(255).IsRequired();
+            builder.Property(p=>p.Descripcion_Texto).HasColumnName("Descripcion_Texto").HasColumnType("longtext").IsRequired(false);
+            builder.Property(p=>p.Descripcion_HTML).HasColumnName("Descripcion_HTML").HasColumnType("longtext").IsRequired(false);
+            builder.Property(p=>p.Imagen).HasColumnName("Imagen").HasMaxLength(255).IsRequired(false);
             
         }
     }

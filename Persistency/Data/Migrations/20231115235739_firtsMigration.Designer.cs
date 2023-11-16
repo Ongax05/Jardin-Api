@@ -11,7 +11,7 @@ using Persistency;
 namespace Persistency.Data.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20231115213152_firtsMigration")]
+    [Migration("20231115235739_firtsMigration")]
     partial class firtsMigration
     {
         /// <inheritdoc />
@@ -190,17 +190,14 @@ namespace Persistency.Data.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Descripcion_HTML")
-                        .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("Descripcion_HTML");
 
                     b.Property<string>("Descripcion_Texto")
-                        .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("Descripcion_Texto");
 
                     b.Property<string>("Imagen")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
                         .HasColumnName("Imagen");
@@ -274,8 +271,8 @@ namespace Persistency.Data.Migrations
                     b.Property<string>("Forma_Pago")
                         .HasColumnType("longtext");
 
-                    b.Property<byte>("Total")
-                        .HasColumnType("tinyint unsigned");
+                    b.Property<short>("Total")
+                        .HasColumnType("smallint");
 
                     b.HasKey("Id");
 
@@ -296,7 +293,6 @@ namespace Persistency.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Comentarios")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
                         .HasColumnName("Comentarios");
@@ -307,7 +303,6 @@ namespace Persistency.Data.Migrations
                         .HasColumnName("Estado");
 
                     b.Property<DateTime?>("Fecha_Entrega")
-                        .IsRequired()
                         .HasColumnType("datetime")
                         .HasColumnName("Fecha_Entrega");
 

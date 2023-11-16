@@ -13,6 +13,6 @@ namespace Domain.Entities
         public Producto Producto { get; set; }
         public int Cantidad { get; set; }
         public decimal Precio_Unidad { get; set; }
-        public byte Numero_Linea { get; set; }
+        public short Numero_Linea { get; set; }
     }
 }

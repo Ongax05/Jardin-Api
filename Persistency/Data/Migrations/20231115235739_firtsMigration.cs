@@ -21,11 +21,11 @@ namespace Persistency.Data.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Descripcion_Texto = table.Column<string>(type: "longtext", nullable: false)
+                    Descripcion_Texto = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Descripcion_HTML = table.Column<string>(type: "longtext", nullable: false)
+                    Descripcion_HTML = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Imagen = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                    Imagen = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -44,13 +44,13 @@ namespace Persistency.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Pais = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Region = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Codigo_Postal = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Telefono = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Linea_Direccion1 = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Region = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Linea_Direccion2 = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
@@ -107,12 +107,12 @@ namespace Persistency.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Dimensiones = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Cantidad_Stock = table.Column<sbyte>(type: "tinyint", nullable: false),
-                    Precio_Venta = table.Column<decimal>(type: "decimal(15,2)", nullable: false),
                     Proveedor = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Descripcion = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Cantidad_Stock = table.Column<sbyte>(type: "tinyint", nullable: false),
+                    Precio_Venta = table.Column<decimal>(type: "decimal(15,2)", nullable: false),
                     Precio_Proveedor = table.Column<decimal>(type: "decimal(15,2)", nullable: false)
                 },
                 constraints: table =>
@@ -136,13 +136,13 @@ namespace Persistency.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Apellido1 = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Apellido2 = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Extension = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     OficinaId = table.Column<string>(type: "varchar(255)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Apellido2 = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Codigo_Jefe = table.Column<int>(type: "int", nullable: true),
                     Puesto = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
@@ -222,19 +222,19 @@ namespace Persistency.Data.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nombre_Cliente = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Nombre_Contacto = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Apellido_Contacto = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Telefono = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Fax = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Linea_Direccion1 = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Ciudad = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Nombre_Contacto = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Apellido_Contacto = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Linea_Direccion2 = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Ciudad = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Region = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -266,7 +266,7 @@ namespace Persistency.Data.Migrations
                     Forma_Pago = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Fecha_Pago = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Total = table.Column<byte>(type: "tinyint unsigned", nullable: false)
+                    Total = table.Column<short>(type: "smallint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -289,12 +289,12 @@ namespace Persistency.Data.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Fecha_Pedido = table.Column<DateTime>(type: "datetime", nullable: false),
                     Fecha_Esperada = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Fecha_Entrega = table.Column<DateTime>(type: "datetime", nullable: true),
                     Estado = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Comentarios = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                    Comentarios = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ClienteId = table.Column<int>(type: "int", nullable: false),
-                    Fecha_Entrega = table.Column<DateTime>(type: "datetime", nullable: false)
+                    ClienteId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

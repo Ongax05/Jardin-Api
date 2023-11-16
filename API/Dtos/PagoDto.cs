@@ -11,6 +11,6 @@ namespace API.Dtos
         public int ClienteId { get; set; }
         public string Forma_Pago { get; set; }
         public DateTime Fecha_Pago { get; set; }
-        public byte Total { get; set; }
+        public short Total { get; set; }
     }
 }

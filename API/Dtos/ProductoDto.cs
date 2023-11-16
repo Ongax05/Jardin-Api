@@ -11,7 +11,7 @@ namespace API.Dtos
         public string Nombre { get; set; }
         public string Gama_ProductoId { get; set; }
         public string Dimensiones { get; set; }
-        public byte Cantidad_Stock { get; set; }
+        public short Cantidad_Stock { get; set; }
         public decimal Precio_Venta { get; set; }
         #nullable enable
         public string? Proveedor { get; set; }
