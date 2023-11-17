@@ -8,6 +8,6 @@ namespace Domain.Interfaces
 {
     public interface IProducto : IGenericString<Producto>
     {
-        
+        Task<IEnumerable<Producto>> GetProductsOrnamentalsWithMoreThan100Ordered();
     }
 }

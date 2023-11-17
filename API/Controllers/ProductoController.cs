@@ -92,5 +92,12 @@ namespace API.Controllers
             await _unitOfWork.SaveAsync();
             return NoContent();
         }
+        [HttpGet("GetProductsOrnamentalsWithMoreThan100Ordered")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<ProductoDto>>> GetProductsOrnamentalsWithMoreThan100Ordered()
+        {
+            var r = await _unitOfWork.Productos.GetProductsOrnamentalsWithMoreThan100Ordered();
+            return _mapper.Map<List<ProductoDto>>(r);
+        }
     }
 }

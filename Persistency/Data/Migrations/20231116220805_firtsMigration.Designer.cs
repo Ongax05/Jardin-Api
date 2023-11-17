@@ -11,7 +11,7 @@ using Persistency;
 namespace Persistency.Data.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20231116192728_firtsMigration")]
+    [Migration("20231116220805_firtsMigration")]
     partial class firtsMigration
     {
         /// <inheritdoc />
@@ -266,13 +266,18 @@ namespace Persistency.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Fecha_Pago")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime")
+                        .HasColumnName("Fecha_Pago");
 
                     b.Property<string>("Forma_Pago")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("varchar(40)")
+                        .HasColumnName("Forma_Pago");
 
-                    b.Property<short>("Total")
-                        .HasColumnType("smallint");
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(15,2)")
+                        .HasColumnName("Total");
 
                     b.HasKey("Id");
 
@@ -503,7 +508,7 @@ namespace Persistency.Data.Migrations
             modelBuilder.Entity("Domain.Entities.Pago", b =>
                 {
                     b.HasOne("Domain.Entities.Cliente", "Cliente")
-                        .WithMany()
+                        .WithMany("Pagos")
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -563,6 +568,8 @@ namespace Persistency.Data.Migrations
 
             modelBuilder.Entity("Domain.Entities.Cliente", b =>
                 {
+                    b.Navigation("Pagos");
+
                     b.Navigation("Pedidos");
                 });
 

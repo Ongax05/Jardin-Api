@@ -92,5 +92,12 @@ namespace API.Controllers
             await _unitOfWork.SaveAsync();
             return NoContent();
         }
+        [HttpGet("GetEmployeeWithBossWithBoss")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<EmpleadoConJefesDto>>> GetEmployeeWithBossWithBoss()
+        {
+            var r = await _unitOfWork.Empleados.GetEmployeeWithBossWithBoss();
+            return _mapper.Map<List<EmpleadoConJefesDto>>(r);
+        }
     }
 }

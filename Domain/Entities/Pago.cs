@@ -11,6 +11,6 @@ namespace Domain.Entities
         public Cliente Cliente { get; set; }
         public string Forma_Pago { get; set; }
         public DateTime Fecha_Pago { get; set; }
-        public short Total { get; set; }
+        public decimal Total { get; set; }
     }
 }

@@ -92,5 +92,64 @@ namespace API.Controllers
             await _unitOfWork.SaveAsync();
             return NoContent();
         }
+
+        [HttpGet("GetSpanishCustomersNames")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<NombresClientesDto>>> GetSpanishCustomersNames ()
+        {
+            var r  = await _unitOfWork.Clientes.GetSpanishCustomersNames();
+            return _mapper.Map<List<NombresClientesDto>>(r);
+        }
+        [HttpGet("GetClientsFromMadridWithEmployeeRepresentant30Or11")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<ClienteDto>>> GetClientsFromMadridWithEmployeeRepresentant30Or11 ()
+        {
+            var r = await _unitOfWork.Clientes.GetClientsFromMadridWithEmployeeRepresentant30Or11();
+            return _mapper.Map<List<ClienteDto>>(r);
+        }
+        [HttpGet("GetClientsWithRepSalInfo")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<ClientsWithRepSalInfoDto>>> GetClientsWithRepSalInfo()
+        {
+            var r = await _unitOfWork.Clientes.GetClientsWithEmployee();
+            return _mapper.Map<List<ClientsWithRepSalInfoDto>>(r);
+        }
+        [HttpGet("GetClientsWithRepSalInfoIfHavePayments")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<ClientsWithRepSalInfoDto>>> GetClientsWithRepSalInfoIfHavePayments ()
+        {
+            var r = await _unitOfWork.Clientes.GetClientsWithRepSalInfoIfHavePayments();
+            return _mapper.Map<List<ClientsWithRepSalInfoDto>>(r);
+        }
+        [HttpGet("GetClientsWithRepSalInfoIfDontHavePayments")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<ClientsWithRepSalInfoDto>>> GetClientsWithRepSalInfoIfDontHavePayments ()
+        {
+            var r = await _unitOfWork.Clientes.GetClientsWithRepSalInfoIfDontHavePayments();
+            return _mapper.Map<List<ClientsWithRepSalInfoDto>>(r);
+        }
+        [HttpGet("GetClientsWithRepSalInfoIfHavePaymentsPlusOfficeCity")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<ClientsWithRepSalInfoPlusOfficeCityDto>>> GetClientsWithRepSalInfoIfHavePaymentsPlusOfficeCity ()
+        {
+            var r = await _unitOfWork.Clientes.GetClientsWithRepSalInfoIfHavePayments();
+            return _mapper.Map<List<ClientsWithRepSalInfoPlusOfficeCityDto>>(r);
+        }
+        [HttpGet("GetClientsWithRepSalInfoIfDontHavePaymentsPlusOfficeCity")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<ClientsWithRepSalInfoPlusOfficeCityDto>>> GetClientsWithRepSalInfoIfDontHavePaymentsPlusOfficeCity ()
+        {
+            var r = await _unitOfWork.Clientes.GetClientsWithRepSalInfoIfDontHavePayments();
+            return _mapper.Map<List<ClientsWithRepSalInfoPlusOfficeCityDto>>(r);
+        }
+        [HttpGet("GetClientsWhoHaveReceivedABackorder")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<ClienteNombreDto>>> GetClientsWhoHaveReceivedABackorder ()
+        {
+            var BackOrders = await _unitOfWork.Pedidos.GetBackOrders();
+            var ClientIds = BackOrders.Select(x => x.ClienteId).ToList();
+            var r = await _unitOfWork.Clientes.GetClientsWhoHaveReceivedABackorder(ClientIds);
+            return _mapper.Map<List<ClienteNombreDto>>(r);
+        }
     }
 }

@@ -263,10 +263,10 @@ namespace Persistency.Data.Migrations
                     Id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ClienteId = table.Column<int>(type: "int", nullable: false),
-                    Forma_Pago = table.Column<string>(type: "longtext", nullable: true)
+                    Forma_Pago = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Fecha_Pago = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Total = table.Column<short>(type: "smallint", nullable: false)
+                    Fecha_Pago = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(15,2)", nullable: false)
                 },
                 constraints: table =>
                 {

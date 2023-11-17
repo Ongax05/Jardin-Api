@@ -29,5 +29,6 @@ namespace Domain.Entities
         public decimal? Limite_Credito { get; set; }
         #nullable disable
         public ICollection<Pedido> Pedidos { get; set; }
+        public ICollection<Pago> Pagos { get; set; }
     }
 }

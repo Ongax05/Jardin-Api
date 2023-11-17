@@ -9,6 +9,6 @@ namespace Domain.Interfaces
 {
     public interface IEmpleado : IGenericInt<Empleado>
     {
-        
+        Task<IEnumerable<Empleado>> GetEmployeeWithBossWithBoss ();
     }
 }

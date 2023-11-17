@@ -92,5 +92,27 @@ namespace API.Controllers
             await _unitOfWork.SaveAsync();
             return NoContent();
         }
+
+        [HttpGet("GetCustomersIdWhoPayIn2008")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<PagoClienteIdDto>>> GetCustomersIdWhoPayIn2008 ()
+        {
+            var r = await _unitOfWork.Pagos.GetCustomersIdWhoPayIn2008();
+            return _mapper.Map<List<PagoClienteIdDto>>(r.DistinctBy(p=>p.ClienteId));
+        }
+        [HttpGet("GetPaymentsOrderedIn2008")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<PagoDto>>> GetPaymentsOrderedIn2008 ()
+        {
+            var r = await _unitOfWork.Pagos.GetPaymentsOrderedIn2008();
+            return _mapper.Map<List<PagoDto>>(r);
+        }
+        [HttpGet("GetFormsOfPayment")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<PagoFormaDto>>> GetFormsOfPayment ()
+        {
+            var r = await _unitOfWork.Pagos.GetAllAsync();
+            return _mapper.Map<List<PagoFormaDto>>(r.DistinctBy(p=>p.Forma_Pago));
+        }
     }
 }

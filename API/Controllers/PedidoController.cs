@@ -92,5 +92,42 @@ namespace API.Controllers
             await _unitOfWork.SaveAsync();
             return NoContent();
         }
+
+        [HttpGet("GetOrderstates")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<EstadosDeOrdenDto>>> GetOrderstates()
+        {
+            var r = await _unitOfWork.Pedidos.GetAllAsync();
+            var re = _mapper.Map<List<EstadosDeOrdenDto>>(r.DistinctBy(m=>m.Estado));
+            return re;
+        }
+        [HttpGet("GetBackOrders")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<ResumenPedidoEsEnDto>>> GetBackOrders()
+        {
+            var r = await _unitOfWork.Pedidos.GetBackOrders();
+            return _mapper.Map<List<ResumenPedidoEsEnDto>>(r);
+        }
+        [HttpGet("GetOrdersTwoDaysEarlier")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<ResumenPedidoEsEnDto>>> GetOrdersTwoDaysEarlier()
+        {
+            var r = await _unitOfWork.Pedidos.GetOrdersTwoDaysEarlier();
+            return _mapper.Map<List<ResumenPedidoEsEnDto>>(r);
+        }
+        [HttpGet("GetRejectedOrdersIn2009")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<PedidoDto>>> GetRejectedOrdersIn2009 ()
+        {
+            var r = await _unitOfWork.Pedidos.GetRejectedOrdersIn2009();
+            return _mapper.Map<List<PedidoDto>>(r);
+        }
+        [HttpGet("GetOrdersInJanuary")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<PedidoDto>>> GetOrdersInJanuary ()
+        {
+            var r = await _unitOfWork.Pedidos.GetOrdersInJanuary();
+            return _mapper.Map<List<PedidoDto>>(r);
+        }
     }
 }

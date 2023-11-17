@@ -10,8 +10,10 @@ namespace Aplication.Repository
 {
     public class OficinaRepository : GenericStringRepository<Oficina>, IOficina
     {
+        private readonly ApiDbContext context;
         public OficinaRepository(ApiDbContext context) : base(context)
         {
+            this.context = context;
         }
     }
 }
