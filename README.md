@@ -140,7 +140,7 @@
 
 29. ¿Cuántos empleados hay en la compañía?
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Empleado/HowManyEmployeesAreInTheCompany
 ```
 
 30. ¿Cuántos clientes tiene cada país?

@@ -125,5 +125,13 @@ namespace API.Controllers
             var r = await _unitOfWork.Empleados.EmployeesWithoutClientsPlusBossName();
             return _mapper.Map<List<EmpleadoConNombreJefeDto>>(r);
         }
+        [HttpGet("HowManyEmployeesAreInTheCompany")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<object>> HowManyEmployeesAreInTheCompany()
+        {
+            int r = await _unitOfWork.Empleados.HowMany();
+            var t = new Dictionary<string, int>() { { "Total Empleados", r } };
+            return t;
+        }
     }
 }

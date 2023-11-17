@@ -12,4 +12,5 @@ public interface IGenericInt<T> where T : BaseEntity
     void Remove(T entity);
     void RemoveRange(IEnumerable<T> entities);
     void Update(T entity);
+    Task<int> HowMany();
 }

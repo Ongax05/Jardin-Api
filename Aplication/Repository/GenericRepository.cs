@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Persistency;
 namespace Aplication.Repository;
 public class GenericIntRepository<T> : IGenericInt<T> where T : BaseEntity
@@ -53,5 +54,9 @@ public class GenericIntRepository<T> : IGenericInt<T> where T : BaseEntity
     {
         _context.Set<T>()
             .Update(entity);
+    }
+    public virtual async Task<int> HowMany()
+    {
+        return await _context.Set<T>().CountAsync();
     }
 }

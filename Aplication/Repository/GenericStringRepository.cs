@@ -51,4 +51,8 @@ public class GenericStringRepository<T> : IGenericString<T> where T : StringBase
         _context.Set<T>()
             .Update(entity);
     }
+    public virtual async Task<int> HowMany()
+    {
+        return await _context.Set<T>().CountAsync();
+    }
 }
