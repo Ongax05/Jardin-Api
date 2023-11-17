@@ -14,6 +14,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Cliente>> GetClientsWithRepSalInfoIfHavePayments ();
         Task<IEnumerable<Cliente>> GetClientsWithRepSalInfoIfDontHavePayments ();
         Task<IEnumerable<Cliente>> GetClientsWhoHaveReceivedABackorder (List<int> ClientIds);
-        //Task<IEnumerable<Cliente>> RangesPurchasedByEachCustomer ();
+        Task<IEnumerable<Cliente>> RangesPurchasedByEachCustomer ();
     }
 }

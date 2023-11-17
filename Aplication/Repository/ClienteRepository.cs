@@ -21,7 +21,8 @@ namespace Aplication.Repository
 
         public async Task<IEnumerable<Cliente>> GetClientsFromMadridWithEmployeeRepresentant30Or11()
         {
-            var r = await context.Clientes
+            var r = await context
+                .Clientes
                 .Where(
                     c =>
                         c.Ciudad.ToLower() == "madrid" && (c.EmpleadoId == 11 || c.EmpleadoId == 30)
@@ -30,9 +31,11 @@ namespace Aplication.Repository
             return r;
         }
 
-        public async Task<IEnumerable<Cliente>> GetClientsWhoHaveReceivedABackorder(List<int> ClientIds)
+        public async Task<IEnumerable<Cliente>> GetClientsWhoHaveReceivedABackorder(
+            List<int> ClientIds
+        )
         {
-            var r = await context.Clientes.Where(p=> ClientIds.Contains(p.Id)).ToListAsync();
+            var r = await context.Clientes.Where(p => ClientIds.Contains(p.Id)).ToListAsync();
             return r;
         }
 
@@ -44,20 +47,22 @@ namespace Aplication.Repository
 
         public async Task<IEnumerable<Cliente>> GetClientsWithRepSalInfoIfDontHavePayments()
         {
-            var r = await context.Clientes
+            var r = await context
+                .Clientes
                 .Where(p => p.Pagos.Count == 0)
                 .Include(c => c.Empleado)
-                .ThenInclude(c=>c.Oficina)
+                .ThenInclude(c => c.Oficina)
                 .ToListAsync();
             return r;
         }
 
         public async Task<IEnumerable<Cliente>> GetClientsWithRepSalInfoIfHavePayments()
         {
-            var r = await context.Clientes
+            var r = await context
+                .Clientes
                 .Where(p => p.Pagos.Count > 0)
                 .Include(c => c.Empleado)
-                .ThenInclude(c=>c.Oficina)
+                .ThenInclude(c => c.Oficina)
                 .ToListAsync();
             return r;
         }
@@ -65,6 +70,17 @@ namespace Aplication.Repository
         public async Task<IEnumerable<Cliente>> GetSpanishCustomersNames()
         {
             var r = await context.Clientes.Where(c => c.Pais.ToLower() == "spain").ToListAsync();
+            return r;
+        }
+
+        public async Task<IEnumerable<Cliente>> RangesPurchasedByEachCustomer()
+        {
+            var r = await context
+                .Clientes
+                .Include(p => p.Pedidos)
+                .ThenInclude(p => p.Detalles_Pedidos)
+                .ThenInclude(p=>p.Producto)
+                .ToListAsync();
             return r;
         }
     }

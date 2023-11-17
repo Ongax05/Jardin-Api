@@ -151,5 +151,23 @@ namespace API.Controllers
             var r = await _unitOfWork.Clientes.GetClientsWhoHaveReceivedABackorder(ClientIds);
             return _mapper.Map<List<ClienteNombreDto>>(r);
         }
+        [HttpGet("RangesPurchasedByEachCustomer")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<ClienteConGamas>>> RangesPurchasedByEachCustomer ()
+        {
+            var r = await _unitOfWork.Clientes.RangesPurchasedByEachCustomer();
+            List<ClienteConGamas> clientes = new();
+            foreach (var c in r)
+            {
+                var gamas = c.Pedidos.SelectMany(p=>p.Detalles_Pedidos.Select(d=>d.Producto.Gama_ProductoId)).Distinct().ToList();
+                ClienteConGamas cliente = new()
+                {
+                    Nombre_Cliente = c.Nombre_Cliente,
+                    Gamas = gamas
+                };
+                clientes.Add(cliente);
+            }
+            return clientes;
+        }
     }
 }
