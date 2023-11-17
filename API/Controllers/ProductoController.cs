@@ -99,5 +99,19 @@ namespace API.Controllers
             var r = await _unitOfWork.Productos.GetProductsOrnamentalsWithMoreThan100Ordered();
             return _mapper.Map<List<ProductoDto>>(r);
         }
+        [HttpGet("ProductsThatHaveNeverBeenOrdered")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<ProductoDto>>> ProductsThatHaveNeverBeenOrdered()
+        {
+            var r = await _unitOfWork.Productos.ProductsThatHaveNeverBeenOrdered();
+            return _mapper.Map<List<ProductoDto>>(r);
+        }
+        [HttpGet("ProductsThatHaveNeverBeenOrderedNameDescAndImg")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<ProductoNombreDescImg>>> ProductsThatHaveNeverBeenOrderedNameDescAndImg()
+        {
+            var r = await _unitOfWork.Productos.ProductsThatHaveNeverBeenOrderedNameDescAndImg();
+            return _mapper.Map<List<ProductoNombreDescImg>>(r);
+        }
     }
 }

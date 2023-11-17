@@ -11,18 +11,16 @@ namespace API.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        
+
         public OficinaController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        
+
         [HttpGet]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<Pager<OficinaDto>>> Get(
-            [FromQuery] Params OficinaParams
-        )
+        public async Task<ActionResult<Pager<OficinaDto>>> Get([FromQuery] Params OficinaParams)
         {
             if (OficinaParams == null)
             {
@@ -40,12 +38,12 @@ namespace API.Controllers
                 OficinaParams.PageSize
             );
         }
-        
+
         private ActionResult<Pager<OficinaDto>> BadRequest(ApiResponse apiResponse)
         {
-        throw new NotImplementedException();
+            throw new NotImplementedException();
         }
-        
+
         [HttpGet("v1")]
         [MapToApiVersion("1.1")]
         public async Task<ActionResult<IEnumerable<OficinaDto>>> Get1_1()
@@ -54,7 +52,7 @@ namespace API.Controllers
             var OficinaListDto = _mapper.Map<List<OficinaDto>>(registers);
             return OficinaListDto;
         }
-        
+
         [HttpPost]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<Oficina>> Post(OficinaDto OficinaDto)
@@ -65,13 +63,10 @@ namespace API.Controllers
             OficinaDto.Id = Oficina.Id;
             return CreatedAtAction(nameof(Post), new { id = OficinaDto.Id }, OficinaDto);
         }
-        
+
         [HttpPut("{id}")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<OficinaDto>> Put(
-            int id,
-            [FromBody] OficinaDto OficinaDto
-        )
+        public async Task<ActionResult<OficinaDto>> Put(int id, [FromBody] OficinaDto OficinaDto)
         {
             if (OficinaDto == null)
             {
@@ -82,7 +77,7 @@ namespace API.Controllers
             await _unitOfWork.SaveAsync();
             return OficinaDto;
         }
-        
+
         [HttpDelete("{id}")]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult> Delete(string id)
@@ -91,6 +86,29 @@ namespace API.Controllers
             _unitOfWork.Oficinas.Remove(Oficina);
             await _unitOfWork.SaveAsync();
             return NoContent();
+        }
+
+        [HttpGet("OfficesWhereEmployeesOfCustomersWhoPurchaseFruitProductsDontWork")]
+        [MapToApiVersion("1.0")]
+        public async Task<
+            ActionResult<IEnumerable<OficinaDto>>
+        > OfficesWhereEmployeesOfCustomersWhoPurchaseFruitProductsDontWork()
+        {
+            var Clients = await _unitOfWork.Clientes.RangesPurchasedByEachCustomer();
+            var OficceIds = Clients
+                .Where(
+                    c =>
+                        c.Pedidos
+                            .SelectMany(p => p.Detalles_Pedidos.DistinctBy(p => p.Producto))
+                            .Select(p => p.Producto)
+                            .Select(p => p.Gama_ProductoId)
+                            .Contains("Frutales")
+                )
+                .Select(c => c.Empleado)
+                .Select(e => e.OficinaId)
+                .ToList();
+            var offices = await _unitOfWork.Oficinas.NotOfficesByIdList(OficceIds);
+            return _mapper.Map<List<OficinaDto>>(offices);
         }
     }
 }

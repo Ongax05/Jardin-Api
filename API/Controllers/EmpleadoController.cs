@@ -1,3 +1,4 @@
+using System.Formats.Asn1;
 using API.Dtos;
 using API.Helpers;
 using AutoMapper;
@@ -11,18 +12,16 @@ namespace API.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        
+
         public EmpleadoController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        
+
         [HttpGet]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<Pager<EmpleadoDto>>> Get(
-            [FromQuery] Params EmpleadoParams
-        )
+        public async Task<ActionResult<Pager<EmpleadoDto>>> Get([FromQuery] Params EmpleadoParams)
         {
             if (EmpleadoParams == null)
             {
@@ -40,12 +39,12 @@ namespace API.Controllers
                 EmpleadoParams.PageSize
             );
         }
-        
+
         private ActionResult<Pager<EmpleadoDto>> BadRequest(ApiResponse apiResponse)
         {
-        throw new NotImplementedException();
+            throw new NotImplementedException();
         }
-        
+
         [HttpGet("v1")]
         [MapToApiVersion("1.1")]
         public async Task<ActionResult<IEnumerable<EmpleadoDto>>> Get1_1()
@@ -54,7 +53,7 @@ namespace API.Controllers
             var EmpleadoListDto = _mapper.Map<List<EmpleadoDto>>(registers);
             return EmpleadoListDto;
         }
-        
+
         [HttpPost]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<Empleado>> Post(EmpleadoDto EmpleadoDto)
@@ -65,13 +64,10 @@ namespace API.Controllers
             EmpleadoDto.Id = Empleado.Id;
             return CreatedAtAction(nameof(Post), new { id = EmpleadoDto.Id }, EmpleadoDto);
         }
-        
+
         [HttpPut("{id}")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<EmpleadoDto>> Put(
-            int id,
-            [FromBody] EmpleadoDto EmpleadoDto
-        )
+        public async Task<ActionResult<EmpleadoDto>> Put(int id, [FromBody] EmpleadoDto EmpleadoDto)
         {
             if (EmpleadoDto == null)
             {
@@ -82,7 +78,7 @@ namespace API.Controllers
             await _unitOfWork.SaveAsync();
             return EmpleadoDto;
         }
-        
+
         [HttpDelete("{id}")]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult> Delete(int id)
@@ -92,12 +88,42 @@ namespace API.Controllers
             await _unitOfWork.SaveAsync();
             return NoContent();
         }
+
         [HttpGet("GetEmployeeWithBossWithBoss")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<EmpleadoConJefesDto>>> GetEmployeeWithBossWithBoss()
+        public async Task<
+            ActionResult<IEnumerable<EmpleadoConJefesDto>>
+        > GetEmployeeWithBossWithBoss()
         {
             var r = await _unitOfWork.Empleados.GetEmployeeWithBossWithBoss();
             return _mapper.Map<List<EmpleadoConJefesDto>>(r);
+        }
+
+        [HttpGet("EmployeesWhoHaveNoAssociatedCustomersWithOffice")]
+        [MapToApiVersion("1.0")]
+        public async Task<
+            ActionResult<IEnumerable<EmpleadoConOficinaDto>>
+        > EmployeesWhoHaveNoAssociatedCustomersWithOffice()
+        {
+            var r = await _unitOfWork.Empleados.EmployeesWhoHaveNoAssociatedCustomersWithOffice();
+            return _mapper.Map<List<EmpleadoConOficinaDto>>(r);
+        }
+
+        [HttpGet("EmployeesWithoutOfficeNorCustomers")]
+        [MapToApiVersion("1.0")]
+        public async Task<
+            ActionResult<IEnumerable<EmpleadoDto>>
+        > EmployeesWithoutOfficeNorCustomers()
+        {
+            var r = await _unitOfWork.Empleados.EmployeesWithoutOfficeNorCustomers();
+            return _mapper.Map<List<EmpleadoDto>>(r);
+        }
+        [HttpGet("EmployeesWithoutClientsPlusBossName")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<EmpleadoConNombreJefeDto>>> EmployeesWithoutClientsPlusBossName()
+        {
+            var r = await _unitOfWork.Empleados.EmployeesWithoutClientsPlusBossName();
+            return _mapper.Map<List<EmpleadoConNombreJefeDto>>(r);
         }
     }
 }

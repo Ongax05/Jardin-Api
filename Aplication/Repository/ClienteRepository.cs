@@ -19,6 +19,24 @@ namespace Aplication.Repository
             this.context = context;
         }
 
+        public async Task<IEnumerable<Cliente>> CustomersWhoHaveNotMadePayments()
+        {
+            var r = await context.Clientes.Where(c => c.Pagos.Count == 0).ToListAsync();
+            return r;
+        }
+
+        public async Task<IEnumerable<Cliente>> CustomersWhoHaveNotMadePaymentsOrPlacedOrders()
+        {
+            var r = await context.Clientes.Where(c => c.Pagos.Count == 0 && c.Pedidos.Count == 0).ToListAsync();
+            return r;
+        }
+
+        public async Task<IEnumerable<Cliente>> CustomersWithOrdersButNotPayments()
+        {
+            var r = await context.Clientes.Where(c => c.Pagos.Count == 0 && c.Pedidos.Count != 0).ToListAsync();
+            return r;
+        }
+
         public async Task<IEnumerable<Cliente>> GetClientsFromMadridWithEmployeeRepresentant30Or11()
         {
             var r = await context
@@ -77,6 +95,7 @@ namespace Aplication.Repository
         {
             var r = await context
                 .Clientes
+                .Include(p=>p.Empleado)
                 .Include(p => p.Pedidos)
                 .ThenInclude(p => p.Detalles_Pedidos)
                 .ThenInclude(p=>p.Producto)

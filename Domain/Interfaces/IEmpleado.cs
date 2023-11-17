@@ -10,5 +10,8 @@ namespace Domain.Interfaces
     public interface IEmpleado : IGenericInt<Empleado>
     {
         Task<IEnumerable<Empleado>> GetEmployeeWithBossWithBoss ();
+        Task<IEnumerable<Empleado>> EmployeesWhoHaveNoAssociatedCustomersWithOffice();
+        Task<IEnumerable<Empleado>> EmployeesWithoutOfficeNorCustomers();
+        Task<IEnumerable<Empleado>> EmployeesWithoutClientsPlusBossName();
     }
 }

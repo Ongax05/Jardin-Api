@@ -9,5 +9,7 @@ namespace Domain.Interfaces
     public interface IProducto : IGenericString<Producto>
     {
         Task<IEnumerable<Producto>> GetProductsOrnamentalsWithMoreThan100Ordered();
+        Task<IEnumerable<Producto>> ProductsThatHaveNeverBeenOrdered();
+        Task<IEnumerable<Producto>> ProductsThatHaveNeverBeenOrderedNameDescAndImg();
     }
 }
