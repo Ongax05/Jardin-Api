@@ -11,27 +11,24 @@ namespace API.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        
+
         public PedidoController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        
+
         [HttpGet]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<Pager<PedidoDto>>> Get(
-            [FromQuery] Params PedidoParams
-        )
+        public async Task<ActionResult<Pager<PedidoDto>>> Get([FromQuery] Params PedidoParams)
         {
             if (PedidoParams == null)
             {
                 return BadRequest(new ApiResponse(400, "Params cannot be null"));
             }
-            var (totalRegisters, registers) = await _unitOfWork.Pedidos.GetAllAsync(
-                PedidoParams.PageIndex,
-                PedidoParams.PageSize
-            );
+            var (totalRegisters, registers) = await _unitOfWork
+                .Pedidos
+                .GetAllAsync(PedidoParams.PageIndex, PedidoParams.PageSize);
             var PedidoListDto = _mapper.Map<List<PedidoDto>>(registers);
             return new Pager<PedidoDto>(
                 PedidoListDto,
@@ -40,12 +37,12 @@ namespace API.Controllers
                 PedidoParams.PageSize
             );
         }
-        
+
         private ActionResult<Pager<PedidoDto>> BadRequest(ApiResponse apiResponse)
         {
-        throw new NotImplementedException();
+            throw new NotImplementedException();
         }
-        
+
         [HttpGet("v1")]
         [MapToApiVersion("1.1")]
         public async Task<ActionResult<IEnumerable<PedidoDto>>> Get1_1()
@@ -54,7 +51,7 @@ namespace API.Controllers
             var PedidoListDto = _mapper.Map<List<PedidoDto>>(registers);
             return PedidoListDto;
         }
-        
+
         [HttpPost]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<Pedido>> Post(PedidoDto PedidoDto)
@@ -65,13 +62,10 @@ namespace API.Controllers
             PedidoDto.Id = Pedido.Id;
             return CreatedAtAction(nameof(Post), new { id = PedidoDto.Id }, PedidoDto);
         }
-        
+
         [HttpPut("{id}")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<PedidoDto>> Put(
-            int id,
-            [FromBody] PedidoDto PedidoDto
-        )
+        public async Task<ActionResult<PedidoDto>> Put(int id, [FromBody] PedidoDto PedidoDto)
         {
             if (PedidoDto == null)
             {
@@ -82,7 +76,7 @@ namespace API.Controllers
             await _unitOfWork.SaveAsync();
             return PedidoDto;
         }
-        
+
         [HttpDelete("{id}")]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult> Delete(int id)
@@ -98,9 +92,10 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<EstadosDeOrdenDto>>> GetOrderstates()
         {
             var r = await _unitOfWork.Pedidos.GetAllAsync();
-            var re = _mapper.Map<List<EstadosDeOrdenDto>>(r.DistinctBy(m=>m.Estado));
+            var re = _mapper.Map<List<EstadosDeOrdenDto>>(r.DistinctBy(m => m.Estado));
             return re;
         }
+
         [HttpGet("GetBackOrders")]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<IEnumerable<ResumenPedidoEsEnDto>>> GetBackOrders()
@@ -108,6 +103,7 @@ namespace API.Controllers
             var r = await _unitOfWork.Pedidos.GetBackOrders();
             return _mapper.Map<List<ResumenPedidoEsEnDto>>(r);
         }
+
         [HttpGet("GetOrdersTwoDaysEarlier")]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<IEnumerable<ResumenPedidoEsEnDto>>> GetOrdersTwoDaysEarlier()
@@ -115,19 +111,34 @@ namespace API.Controllers
             var r = await _unitOfWork.Pedidos.GetOrdersTwoDaysEarlier();
             return _mapper.Map<List<ResumenPedidoEsEnDto>>(r);
         }
+
         [HttpGet("GetRejectedOrdersIn2009")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<PedidoDto>>> GetRejectedOrdersIn2009 ()
+        public async Task<ActionResult<IEnumerable<PedidoDto>>> GetRejectedOrdersIn2009()
         {
             var r = await _unitOfWork.Pedidos.GetRejectedOrdersIn2009();
             return _mapper.Map<List<PedidoDto>>(r);
         }
+
         [HttpGet("GetOrdersInJanuary")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<PedidoDto>>> GetOrdersInJanuary ()
+        public async Task<ActionResult<IEnumerable<PedidoDto>>> GetOrdersInJanuary()
         {
             var r = await _unitOfWork.Pedidos.GetOrdersInJanuary();
             return _mapper.Map<List<PedidoDto>>(r);
+        }
+
+        [HttpGet("HowManyOrdersByState")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<object>>> HowManyOrdersByState()
+        {
+            var r = await _unitOfWork.Pedidos.GetAllAsync();
+            var sorted = r.GroupBy(p => p.Estado)
+                .Select(g => new { Estado = g.Key, Total = g.Count() })
+                .OrderByDescending(p=>p.Total)
+                .ToList();
+
+            return Ok(sorted);
         }
     }
 }

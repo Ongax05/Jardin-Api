@@ -26,10 +26,9 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse(400, "Params cannot be null"));
             }
-            var (totalRegisters, registers) = await _unitOfWork.Clientes.GetAllAsync(
-                ClienteParams.PageIndex,
-                ClienteParams.PageSize
-            );
+            var (totalRegisters, registers) = await _unitOfWork
+                .Clientes
+                .GetAllAsync(ClienteParams.PageIndex, ClienteParams.PageSize);
             var ClienteListDto = _mapper.Map<List<ClienteDto>>(registers);
             return new Pager<ClienteDto>(
                 ClienteListDto,
@@ -209,6 +208,17 @@ namespace API.Controllers
         {
             var r = await _unitOfWork.Clientes.CustomersWithOrdersButNotPayments();
             return _mapper.Map<List<ClienteDto>>(r);
+        }
+
+        [HttpGet("HowManyCustomersPerCountry")]
+        [MapToApiVersion("1.0")]
+        public async Task<
+            ActionResult<IEnumerable<object>>
+        > HowManyCustomersPerCountry()
+        {
+            var c = await _unitOfWork.Clientes.CustomersGruopedByCountry();
+            var r = c.Select(x => new { Pais = x.Key, Total = x.Count() }).ToList();
+            return r;
         }
     }
 }

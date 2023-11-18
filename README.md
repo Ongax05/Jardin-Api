@@ -145,17 +145,17 @@
 
 30. ¿Cuántos clientes tiene cada país?
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/HowManyCustomersPerCountry
 ```
 
 31. ¿Cuál fue el pago medio en 2009?
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Pago/AveragePaymentIn2009
 ```
 
 32. ¿Cuántos pedidos hay en cada estado? Ordena el resultado de forma descendente por el número de pedidos.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Pedido/HowManyOrdersByState
 ```
 
 33. ¿Cuántos clientes existen con domicilio en la ciudad de Madrid?

@@ -11,27 +11,24 @@ namespace API.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        
+
         public PagoController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        
+
         [HttpGet]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<Pager<PagoDto>>> Get(
-            [FromQuery] Params PagoParams
-        )
+        public async Task<ActionResult<Pager<PagoDto>>> Get([FromQuery] Params PagoParams)
         {
             if (PagoParams == null)
             {
                 return BadRequest(new ApiResponse(400, "Params cannot be null"));
             }
-            var (totalRegisters, registers) = await _unitOfWork.Pagos.GetAllAsync(
-                PagoParams.PageIndex,
-                PagoParams.PageSize
-            );
+            var (totalRegisters, registers) = await _unitOfWork
+                .Pagos
+                .GetAllAsync(PagoParams.PageIndex, PagoParams.PageSize);
             var PagoListDto = _mapper.Map<List<PagoDto>>(registers);
             return new Pager<PagoDto>(
                 PagoListDto,
@@ -40,12 +37,12 @@ namespace API.Controllers
                 PagoParams.PageSize
             );
         }
-        
+
         private ActionResult<Pager<PagoDto>> BadRequest(ApiResponse apiResponse)
         {
-        throw new NotImplementedException();
+            throw new NotImplementedException();
         }
-        
+
         [HttpGet("v1")]
         [MapToApiVersion("1.1")]
         public async Task<ActionResult<IEnumerable<PagoDto>>> Get1_1()
@@ -54,7 +51,7 @@ namespace API.Controllers
             var PagoListDto = _mapper.Map<List<PagoDto>>(registers);
             return PagoListDto;
         }
-        
+
         [HttpPost]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<Pago>> Post(PagoDto PagoDto)
@@ -65,13 +62,10 @@ namespace API.Controllers
             PagoDto.Id = Pago.Id;
             return CreatedAtAction(nameof(Post), new { id = PagoDto.Id }, PagoDto);
         }
-        
+
         [HttpPut("{id}")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<PagoDto>> Put(
-            int id,
-            [FromBody] PagoDto PagoDto
-        )
+        public async Task<ActionResult<PagoDto>> Put(int id, [FromBody] PagoDto PagoDto)
         {
             if (PagoDto == null)
             {
@@ -82,7 +76,7 @@ namespace API.Controllers
             await _unitOfWork.SaveAsync();
             return PagoDto;
         }
-        
+
         [HttpDelete("{id}")]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult> Delete(string id)
@@ -95,24 +89,34 @@ namespace API.Controllers
 
         [HttpGet("GetCustomersIdWhoPayIn2008")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<PagoClienteIdDto>>> GetCustomersIdWhoPayIn2008 ()
+        public async Task<ActionResult<IEnumerable<PagoClienteIdDto>>> GetCustomersIdWhoPayIn2008()
         {
             var r = await _unitOfWork.Pagos.GetCustomersIdWhoPayIn2008();
-            return _mapper.Map<List<PagoClienteIdDto>>(r.DistinctBy(p=>p.ClienteId));
+            return _mapper.Map<List<PagoClienteIdDto>>(r.DistinctBy(p => p.ClienteId));
         }
+
         [HttpGet("GetPaymentsOrderedIn2008")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<PagoDto>>> GetPaymentsOrderedIn2008 ()
+        public async Task<ActionResult<IEnumerable<PagoDto>>> GetPaymentsOrderedIn2008()
         {
             var r = await _unitOfWork.Pagos.GetPaymentsOrderedIn2008();
             return _mapper.Map<List<PagoDto>>(r);
         }
+
         [HttpGet("GetFormsOfPayment")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<PagoFormaDto>>> GetFormsOfPayment ()
+        public async Task<ActionResult<IEnumerable<PagoFormaDto>>> GetFormsOfPayment()
         {
             var r = await _unitOfWork.Pagos.GetAllAsync();
-            return _mapper.Map<List<PagoFormaDto>>(r.DistinctBy(p=>p.Forma_Pago));
+            return _mapper.Map<List<PagoFormaDto>>(r.DistinctBy(p => p.Forma_Pago));
+        }
+
+        [HttpGet("AveragePaymentIn2009")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<object>> AveragePaymentIn2009()
+        {
+            var average = await _unitOfWork.Pagos.AveragePaymentIn2009();
+            return Ok(new Dictionary<string, object>() { { "Media de pagos en 2009", average } });
         }
     }
 }

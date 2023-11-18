@@ -19,6 +19,12 @@ namespace Aplication.Repository
             this.context = context;
         }
 
+        public async Task<decimal> AveragePaymentIn2009()
+        {
+            decimal average = await context.Pagos.Where(p=>p.Fecha_Pago.Year == 2009).Select(p=>p.Total).AverageAsync();
+            return average;
+        }
+
         public async Task<IEnumerable<Pago>> GetCustomersIdWhoPayIn2008()
         {
             var r = await context.Pagos.Where(p => p.Fecha_Pago.Year == 2008).ToListAsync();

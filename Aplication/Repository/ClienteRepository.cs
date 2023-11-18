@@ -19,6 +19,12 @@ namespace Aplication.Repository
             this.context = context;
         }
 
+        public async Task<IEnumerable<IGrouping<string, Cliente>>> CustomersGruopedByCountry ()
+        {
+            var r = await context.Clientes.GroupBy(p=>p.Pais).ToListAsync();
+            return r.ToList();
+        }
+
         public async Task<IEnumerable<Cliente>> CustomersWhoHaveNotMadePayments()
         {
             var r = await context.Clientes.Where(c => c.Pagos.Count == 0).ToListAsync();
