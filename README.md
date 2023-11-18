@@ -160,52 +160,52 @@
 
 33. ¿Cuántos clientes existen con domicilio en la ciudad de Madrid?
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/HowManyCustomersInMadridCity
 ```
 
 34. ¿Calcula cuántos clientes tiene cada una de las ciudades que empiezan por M?
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/CustomersInCitiesWhichStartWithM
 ```
 
 35. Devuelve el nombre de los representantes de ventas y el número de clientes al que atiende cada uno.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Empleado/HowManyClientesBySalesRepresentativesEmployees
 ```
 
 36. Calcula el número de clientes que no tiene asignado representante de ventas.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/CustomersWhoHaveNoAssignedEmployee
 ```
 
 37. Calcula la fecha del primer y último pago realizado por cada uno de los clientes. El listado deberá mostrar el nombre y los apellidos de cada cliente.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/CustomersWithPaymentDates
 ```
 
 38. Calcula el número de productos diferentes que hay en cada uno de los pedidos.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Pedido/ProductsDifferentByOrder
 ```
 
 39. Calcula la suma de la cantidad total de todos los productos que aparecen en cada uno de los pedidos.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Pedido/ProductsByOrder
 ```
 
 40. Devuelve un listado de los 20 productos más vendidos y el número total de unidades que se han vendido de cada uno. El listado deberá estar ordenado por el número total de unidades vendidas.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Producto/Top20Products
 ```
 
 41. La misma información que en la pregunta anterior, pero agrupada por código de producto.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Producto/Top20ProductsGroupedByProductId
 ```
 
 42. La misma información que en la pregunta anterior, pero agrupada por código de producto filtrada por los códigos que empiecen por OR.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Producto/TopProductsGroupedByProductIdStartsWithOR
 ```
 
 43. Lista las ventas totales de los productos que hayan facturado más de 3000 euros. Se mostrará el nombre, unidades vendidas, total facturado y total facturado con impuestos (21% IVA).

@@ -140,5 +140,19 @@ namespace API.Controllers
 
             return Ok(sorted);
         }
+        [HttpGet("ProductsDifferentByOrder")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<PedidoConCuantosProductosDistintos>>> ProductsDifferentByOrder()
+        {
+            var r = await _unitOfWork.Pedidos.ProductsDifferentByOrder();
+            return _mapper.Map<List<PedidoConCuantosProductosDistintos>>(r);
+        }
+        [HttpGet("ProductsByOrder")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<PedidoConCuantosProductos>>> ProductstByOrder()
+        {
+            var r = await _unitOfWork.Pedidos.ProductsDifferentByOrder();
+            return _mapper.Map<List<PedidoConCuantosProductos>>(r);
+        }
     }
 }

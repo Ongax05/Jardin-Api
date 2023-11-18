@@ -27,10 +27,9 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse(400, "Params cannot be null"));
             }
-            var (totalRegisters, registers) = await _unitOfWork.Empleados.GetAllAsync(
-                EmpleadoParams.PageIndex,
-                EmpleadoParams.PageSize
-            );
+            var (totalRegisters, registers) = await _unitOfWork
+                .Empleados
+                .GetAllAsync(EmpleadoParams.PageIndex, EmpleadoParams.PageSize);
             var EmpleadoListDto = _mapper.Map<List<EmpleadoDto>>(registers);
             return new Pager<EmpleadoDto>(
                 EmpleadoListDto,
@@ -118,13 +117,17 @@ namespace API.Controllers
             var r = await _unitOfWork.Empleados.EmployeesWithoutOfficeNorCustomers();
             return _mapper.Map<List<EmpleadoDto>>(r);
         }
+
         [HttpGet("EmployeesWithoutClientsPlusBossName")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<EmpleadoConNombreJefeDto>>> EmployeesWithoutClientsPlusBossName()
+        public async Task<
+            ActionResult<IEnumerable<EmpleadoConNombreJefeDto>>
+        > EmployeesWithoutClientsPlusBossName()
         {
             var r = await _unitOfWork.Empleados.EmployeesWithoutClientsPlusBossName();
             return _mapper.Map<List<EmpleadoConNombreJefeDto>>(r);
         }
+
         [HttpGet("HowManyEmployeesAreInTheCompany")]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<object>> HowManyEmployeesAreInTheCompany()
@@ -132,6 +135,12 @@ namespace API.Controllers
             int r = await _unitOfWork.Empleados.HowMany();
             var t = new Dictionary<string, int>() { { "Total Empleados", r } };
             return t;
+        }
+        [HttpGet("HowManyClientesBySalesRepresentativesEmployees")]
+        public async Task<ActionResult<IEnumerable<EmpleadoNombreCuantosClientes>>> HowManyClientesBySalesRepresentativesEmployees()
+        {
+            var r = await _unitOfWork.Empleados.SalesRepresentativesEmployees();
+            return _mapper.Map<List<EmpleadoNombreCuantosClientes>>(r);
         }
     }
 }

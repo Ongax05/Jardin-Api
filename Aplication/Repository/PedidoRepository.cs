@@ -41,5 +41,11 @@ namespace Aplication.Repository
             var r = await context.Pedidos.Where(x => x.Estado.ToLower() == "rechazado" && x.Fecha_Pedido.Year == 2009).ToListAsync();
             return r;
         }
+
+        public async Task<IEnumerable<Pedido>> ProductsDifferentByOrder()
+        {
+            var r = await context.Pedidos.Include(p=>p.Detalles_Pedidos).ToListAsync();
+            return r;
+        }
     }
 }

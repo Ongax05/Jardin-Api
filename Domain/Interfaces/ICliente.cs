@@ -18,6 +18,10 @@ namespace Domain.Interfaces
         Task<IEnumerable<Cliente>> CustomersWhoHaveNotMadePayments();
         Task<IEnumerable<Cliente>> CustomersWhoHaveNotMadePaymentsOrPlacedOrders();
         Task<IEnumerable<Cliente>> CustomersWithOrdersButNotPayments();
-        Task<IEnumerable<IGrouping<string, Cliente>>> CustomersGruopedByCountry ();
+        Task<IEnumerable<IGrouping<string, Cliente>>> CustomersGruopedByCountry();
+        Task<int> CustomersInMadridCity();
+        Task<int> CustomersInCitiesWhichStartWithM();
+        Task<int> CustomersWhoHaveNoAssignedEmployee();
+        Task<IEnumerable<Cliente>> CustomersWithPayments ();
     }
 }

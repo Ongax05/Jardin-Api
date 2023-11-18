@@ -19,10 +19,31 @@ namespace Aplication.Repository
             this.context = context;
         }
 
-        public async Task<IEnumerable<IGrouping<string, Cliente>>> CustomersGruopedByCountry ()
+        public async Task<IEnumerable<IGrouping<string, Cliente>>> CustomersGruopedByCountry()
         {
-            var r = await context.Clientes.GroupBy(p=>p.Pais).ToListAsync();
+            var r = await context.Clientes.GroupBy(p => p.Pais).ToListAsync();
             return r.ToList();
+        }
+
+        public async Task<int> CustomersInCitiesWhichStartWithM()
+        {
+            var r = await context
+                .Clientes
+                .Where(c => c.Ciudad.ToLower().StartsWith("m"))
+                .CountAsync();
+            return r;
+        }
+
+        public async Task<int> CustomersInMadridCity()
+        {
+            var r = await context.Clientes.Where(p => p.Ciudad.ToLower() == "madrid").CountAsync();
+            return r;
+        }
+
+        public async Task<int> CustomersWhoHaveNoAssignedEmployee()
+        {
+            var r = await context.Clientes.Where(c => c.EmpleadoId == null).CountAsync();
+            return r;
         }
 
         public async Task<IEnumerable<Cliente>> CustomersWhoHaveNotMadePayments()
@@ -33,13 +54,29 @@ namespace Aplication.Repository
 
         public async Task<IEnumerable<Cliente>> CustomersWhoHaveNotMadePaymentsOrPlacedOrders()
         {
-            var r = await context.Clientes.Where(c => c.Pagos.Count == 0 && c.Pedidos.Count == 0).ToListAsync();
+            var r = await context
+                .Clientes
+                .Where(c => c.Pagos.Count == 0 && c.Pedidos.Count == 0)
+                .ToListAsync();
             return r;
         }
 
         public async Task<IEnumerable<Cliente>> CustomersWithOrdersButNotPayments()
         {
-            var r = await context.Clientes.Where(c => c.Pagos.Count == 0 && c.Pedidos.Count != 0).ToListAsync();
+            var r = await context
+                .Clientes
+                .Where(c => c.Pagos.Count == 0 && c.Pedidos.Count != 0)
+                .ToListAsync();
+            return r;
+        }
+
+        public async Task<IEnumerable<Cliente>> CustomersWithPayments()
+        {
+            var r = await context
+                .Clientes
+                .Where(p => p.Pagos.Count != 0)
+                .Include(c => c.Pagos)
+                .ToListAsync();
             return r;
         }
 
@@ -101,10 +138,10 @@ namespace Aplication.Repository
         {
             var r = await context
                 .Clientes
-                .Include(p=>p.Empleado)
+                .Include(p => p.Empleado)
                 .Include(p => p.Pedidos)
                 .ThenInclude(p => p.Detalles_Pedidos)
-                .ThenInclude(p=>p.Producto)
+                .ThenInclude(p => p.Producto)
                 .ToListAsync();
             return r;
         }

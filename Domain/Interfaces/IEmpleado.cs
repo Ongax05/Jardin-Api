@@ -13,5 +13,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Empleado>> EmployeesWhoHaveNoAssociatedCustomersWithOffice();
         Task<IEnumerable<Empleado>> EmployeesWithoutOfficeNorCustomers();
         Task<IEnumerable<Empleado>> EmployeesWithoutClientsPlusBossName();
+        Task<IEnumerable<Empleado>> SalesRepresentativesEmployees();
     }
 }

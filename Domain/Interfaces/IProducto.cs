@@ -11,5 +11,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Producto>> GetProductsOrnamentalsWithMoreThan100Ordered();
         Task<IEnumerable<Producto>> ProductsThatHaveNeverBeenOrdered();
         Task<IEnumerable<Producto>> ProductsThatHaveNeverBeenOrderedNameDescAndImg();
+        Task<IEnumerable<Producto>> Top20Products();
     }
 }

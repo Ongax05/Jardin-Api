@@ -27,6 +27,51 @@ namespace API.Profiles
             CreateMap<Cliente, ClienteNombreDto>().ReverseMap();
             CreateMap<Empleado, EmpleadoConOficinaDto>().ReverseMap();
 
+            CreateMap<Producto, ProductoConCuantosVendidosDto>()
+                .ForMember(
+                    dest => dest.Unidades_Vendidas,
+                    opt => opt.MapFrom(en => en.Detalles_Pedidos.Count)
+                )
+                .ReverseMap();
+            CreateMap<Pedido, PedidoConCuantosProductosDistintos>()
+                .ForMember(
+                    dest => dest.Cantidad_De_Productos_Distintos,
+                    opt =>
+                        opt.MapFrom(
+                            en => en.Detalles_Pedidos.Select(p => p.ProductoId).Distinct().Count()
+                        )
+                );
+            CreateMap<Pedido, PedidoConCuantosProductos>()
+                .ForMember(
+                    dest => dest.Cantidad_De_Productos,
+                    opt => opt.MapFrom(en => en.Detalles_Pedidos.Select(p => p.ProductoId).Count())
+                );
+            CreateMap<Cliente, ClienteConFechasDto>()
+                .ForMember(
+                    dest => dest.Pago_Mas_Reciente,
+                    opt =>
+                        opt.MapFrom(
+                            en =>
+                                en.Pagos
+                                    .OrderByDescending(p => p.Fecha_Pago)
+                                    .Select(p => p.Fecha_Pago)
+                                    .FirstOrDefault()
+                        )
+                )
+                .ForMember(
+                    dest => dest.Pago_Mas_Antiguo,
+                    opt =>
+                        opt.MapFrom(
+                            en =>
+                                en.Pagos
+                                    .OrderBy(p => p.Fecha_Pago)
+                                    .Select(p => p.Fecha_Pago)
+                                    .FirstOrDefault()
+                        )
+                );
+            CreateMap<Empleado, EmpleadoNombreCuantosClientes>()
+                .ForMember(dest => dest.Clientes, opt => opt.MapFrom(en => en.Clientes.Count))
+                .ReverseMap();
             CreateMap<Empleado, EmpleadoConNombreJefeDto>()
                 .ForMember(dest => dest.Nombre_Jefe, opt => opt.MapFrom(en => en.Jefe.Nombre))
                 .ReverseMap();

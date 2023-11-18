@@ -12,5 +12,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Pedido>> GetOrdersTwoDaysEarlier();
         Task<IEnumerable<Pedido>> GetRejectedOrdersIn2009();
         Task<IEnumerable<Pedido>> GetOrdersInJanuary();
+        Task<IEnumerable<Pedido>> ProductsDifferentByOrder();
     }
 }

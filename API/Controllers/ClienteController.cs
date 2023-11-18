@@ -4,6 +4,8 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage;
+using Persistency.Data.Configurations;
 
 namespace API.Controllers
 {
@@ -219,6 +221,45 @@ namespace API.Controllers
             var c = await _unitOfWork.Clientes.CustomersGruopedByCountry();
             var r = c.Select(x => new { Pais = x.Key, Total = x.Count() }).ToList();
             return r;
+        }
+        [HttpGet("HowManyCustomersInMadridCity")]
+        [MapToApiVersion("1.0")]
+        public async Task<
+            ActionResult<object>
+        > HowManyCustomersInMadridCity()
+        {
+            var c = await _unitOfWork.Clientes.CustomersInMadridCity();
+            var r = new { NumeroDeClientesEnMadrid = c };
+            return r;
+        }
+        [HttpGet("CustomersInCitiesWhichStartWithM")]
+        [MapToApiVersion("1.0")]
+        public async Task<
+            ActionResult<object>
+        > CustomersInCitiesWhichStartWithM()
+        {
+            var c = await _unitOfWork.Clientes.CustomersInCitiesWhichStartWithM();
+            var r = new { NumeroDeClientesEnCiudadesQueEmpiezanConM = c };
+            return r;
+        }
+        [HttpGet("CustomersWhoHaveNoAssignedEmployee")]
+        [MapToApiVersion("1.0")]
+        public async Task<
+            ActionResult<object>
+        > CustomersWhoHaveNoAssignedEmployee()
+        {
+            var c = await _unitOfWork.Clientes.CustomersWhoHaveNoAssignedEmployee();
+            var r = new { NumeroDeClientesSinRepresentanteAsignado = c };
+            return r;
+        }
+        [HttpGet("CustomersWithPaymentDates")]
+        [MapToApiVersion("1.0")]
+        public async Task<
+            ActionResult<IEnumerable<ClienteConFechasDto>>
+        > CustomersWithPaymentDates ()
+        {
+            var r = await _unitOfWork.Clientes.CustomersWithPayments();
+            return _mapper.Map<List<ClienteConFechasDto>>(r);
         }
     }
 }
