@@ -4,10 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Dtos;
 using API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
+[ApiVersion("1.0")]
+[ApiVersion("1.1")]
+// [Authorize(Roles = "Employee,Admin")]
 public class UserController : ApiBaseController
 {
     private readonly IUserService _userService;
@@ -16,6 +20,7 @@ public class UserController : ApiBaseController
     {
         _userService = userService;
     }
+
     [HttpPost("register")]
     public async Task<ActionResult> RegisterAsync(RegisterDto model)
     {
@@ -52,7 +57,6 @@ public class UserController : ApiBaseController
         return Ok(response);
     }
 
-
     private void SetRefreshTokenInCookie(string refreshToken)
     {
         var cookieOptions = new CookieOptions
@@ -62,5 +66,4 @@ public class UserController : ApiBaseController
         };
         Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
     }
-    
 }

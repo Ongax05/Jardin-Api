@@ -3,10 +3,14 @@ using API.Helpers;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [ApiVersion("1.0")]
+    [ApiVersion("1.1")]
+    // [Authorize(Roles = "Employee,Admin")]
     public class ProductoController : ApiBaseController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -26,9 +30,10 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse(400, "Params cannot be null"));
             }
-            var (totalRegisters, registers) = await _unitOfWork
-                .Productos
-                .GetAllAsync(ProductoParams.PageIndex, ProductoParams.PageSize);
+            var (totalRegisters, registers) = await _unitOfWork.Productos.GetAllAsync(
+                ProductoParams.PageIndex,
+                ProductoParams.PageSize
+            );
             var ProductoListDto = _mapper.Map<List<ProductoDto>>(registers);
             return new Pager<ProductoDto>(
                 ProductoListDto,
@@ -171,7 +176,7 @@ namespace API.Controllers
         public async Task<ActionResult<object>> MostExpensiveProduct()
         {
             var r = await _unitOfWork.Productos.MostExpensiveProduct();
-            return new  { Nombre = r.Nombre };
+            return new { Nombre = r.Nombre };
         }
 
         [HttpGet("NameBestSoldProduct")]
@@ -179,8 +184,9 @@ namespace API.Controllers
         public async Task<ActionResult<object>> NameBestSoldProduct()
         {
             var r = await _unitOfWork.Productos.NameBestSoldProduct();
-            return new  { Nombre = r.Nombre };
+            return new { Nombre = r.Nombre };
         }
+
         [HttpGet("ProductsHaveBeenBought")]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<IEnumerable<ProductoDto>>> ProductsHaveBeenBought()

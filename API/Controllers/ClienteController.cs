@@ -3,12 +3,14 @@ using API.Helpers;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage;
-using Persistency.Data.Configurations;
 
 namespace API.Controllers
 {
+    [ApiVersion("1.0")]
+    [ApiVersion("1.1")]
+    // [Authorize(Roles = "Employee,Admin")]
     public class ClienteController : ApiBaseController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -28,9 +30,10 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse(400, "Params cannot be null"));
             }
-            var (totalRegisters, registers) = await _unitOfWork
-                .Clientes
-                .GetAllAsync(ClienteParams.PageIndex, ClienteParams.PageSize);
+            var (totalRegisters, registers) = await _unitOfWork.Clientes.GetAllAsync(
+                ClienteParams.PageIndex,
+                ClienteParams.PageSize
+            );
             var ClienteListDto = _mapper.Map<List<ClienteDto>>(registers);
             return new Pager<ClienteDto>(
                 ClienteListDto,
@@ -291,13 +294,17 @@ namespace API.Controllers
             var r = await _unitOfWork.Clientes.CustomersWithOrders();
             return _mapper.Map<List<ClientesConTotalDePedidos>>(r);
         }
+
         [HttpGet("CustomersWhoHaveBoughtIn2008Sorted")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<ClienteDto>>> CustomersWhoHaveBoughtIn2008Sorted()
+        public async Task<
+            ActionResult<IEnumerable<ClienteDto>>
+        > CustomersWhoHaveBoughtIn2008Sorted()
         {
             var r = await _unitOfWork.Clientes.CustomersWhoHaveBoughtIn2008Sorted();
             return _mapper.Map<List<ClienteDto>>(r);
         }
+
         [HttpGet("GetClientsWithRepSalInfoIfDontHavePaymentsWithOficceTel")]
         [MapToApiVersion("1.0")]
         public async Task<
@@ -307,11 +314,15 @@ namespace API.Controllers
             var r = await _unitOfWork.Clientes.GetClientsWithRepSalInfoIfDontHavePayments();
             return _mapper.Map<List<GetClientsWithRepSalInfoIfDontHavePaymentsWithOficceTel>>(r);
         }
+
         [HttpGet("CustomersWithTheirNameSalesRepresentativeAndOfficeCity")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<ClientsWithRepSalInfoPlusOfficeCityDto>>> CustomersWithTheirNameSalesRepresentativeAndOfficeCity()
+        public async Task<
+            ActionResult<IEnumerable<ClientsWithRepSalInfoPlusOfficeCityDto>>
+        > CustomersWithTheirNameSalesRepresentativeAndOfficeCity()
         {
-            var r = await _unitOfWork.Clientes.CustomersWithTheirNameSalesRepresentativeAndOfficeCity();
+            var r =
+                await _unitOfWork.Clientes.CustomersWithTheirNameSalesRepresentativeAndOfficeCity();
             return _mapper.Map<List<ClientsWithRepSalInfoPlusOfficeCityDto>>(r);
         }
     }

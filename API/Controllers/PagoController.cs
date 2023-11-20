@@ -3,10 +3,14 @@ using API.Helpers;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [ApiVersion("1.0")]
+    [ApiVersion("1.1")]
+    // [Authorize(Roles = "Employee,Admin")]
     public class PagoController : ApiBaseController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -26,9 +30,10 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse(400, "Params cannot be null"));
             }
-            var (totalRegisters, registers) = await _unitOfWork
-                .Pagos
-                .GetAllAsync(PagoParams.PageIndex, PagoParams.PageSize);
+            var (totalRegisters, registers) = await _unitOfWork.Pagos.GetAllAsync(
+                PagoParams.PageIndex,
+                PagoParams.PageSize
+            );
             var PagoListDto = _mapper.Map<List<PagoDto>>(registers);
             return new Pager<PagoDto>(
                 PagoListDto,
@@ -118,6 +123,7 @@ namespace API.Controllers
             var average = await _unitOfWork.Pagos.AveragePaymentIn2009();
             return Ok(new Dictionary<string, object>() { { "Media de pagos en 2009", average } });
         }
+
         [HttpGet("TotalPaymentsPerYear")]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<IEnumerable<object>>> TotalPaymentsPerYear()

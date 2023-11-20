@@ -3,10 +3,14 @@ using API.Helpers;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [ApiVersion("1.0")]
+    [ApiVersion("1.1")]
+    // [Authorize(Roles = "Employee,Admin")]
     public class PedidoController : ApiBaseController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -26,9 +30,10 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse(400, "Params cannot be null"));
             }
-            var (totalRegisters, registers) = await _unitOfWork
-                .Pedidos
-                .GetAllAsync(PedidoParams.PageIndex, PedidoParams.PageSize);
+            var (totalRegisters, registers) = await _unitOfWork.Pedidos.GetAllAsync(
+                PedidoParams.PageIndex,
+                PedidoParams.PageSize
+            );
             var PedidoListDto = _mapper.Map<List<PedidoDto>>(registers);
             return new Pager<PedidoDto>(
                 PedidoListDto,
@@ -135,18 +140,22 @@ namespace API.Controllers
             var r = await _unitOfWork.Pedidos.GetAllAsync();
             var sorted = r.GroupBy(p => p.Estado)
                 .Select(g => new { Estado = g.Key, Total = g.Count() })
-                .OrderByDescending(p=>p.Total)
+                .OrderByDescending(p => p.Total)
                 .ToList();
 
             return Ok(sorted);
         }
+
         [HttpGet("ProductsDifferentByOrder")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<List<PedidoConCuantosProductosDistintos>>> ProductsDifferentByOrder()
+        public async Task<
+            ActionResult<List<PedidoConCuantosProductosDistintos>>
+        > ProductsDifferentByOrder()
         {
             var r = await _unitOfWork.Pedidos.ProductsDifferentByOrder();
             return _mapper.Map<List<PedidoConCuantosProductosDistintos>>(r);
         }
+
         [HttpGet("ProductsByOrder")]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<List<PedidoConCuantosProductos>>> ProductstByOrder()
