@@ -126,6 +126,7 @@ namespace API.Controllers
                 .ToList();
             return dtos;
         }
+
         [HttpGet("Top20ProductsGroupedByProductId")]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<IEnumerable<object>>> Top20ProductsGroupedByProductId()
@@ -134,24 +135,58 @@ namespace API.Controllers
             var dtos = _mapper
                 .Map<List<ProductoConCuantosVendidosDto>>(r)
                 .OrderByDescending(p => p.Unidades_Vendidas)
-                .GroupBy(p=>p.Id)
+                .GroupBy(p => p.Id)
                 .Select(x => new { Id = x.Key, Items = x.ToList() })
                 .ToList();
             return dtos;
         }
+
         [HttpGet("TopProductsGroupedByProductIdStartsWithOR")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<object>>> TopProductsGroupedByProductIdStartsWithOR()
+        public async Task<
+            ActionResult<IEnumerable<object>>
+        > TopProductsGroupedByProductIdStartsWithOR()
         {
             var r = await _unitOfWork.Productos.Top20Products();
             var dtos = _mapper
                 .Map<List<ProductoConCuantosVendidosDto>>(r)
-                .Where(p=>p.Id.StartsWith("OR"))
+                .Where(p => p.Id.StartsWith("OR"))
                 .OrderByDescending(p => p.Unidades_Vendidas)
-                .GroupBy(p=>p.Id)
+                .GroupBy(p => p.Id)
                 .Select(x => new { Id = x.Key, Items = x.ToList() })
                 .ToList();
             return dtos;
+        }
+
+        [HttpGet("Products3000EandIVA")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<object>>> Products3000EandIVA()
+        {
+            var r = await _unitOfWork.Productos.Products3000EandIVA();
+            return Ok(r);
+        }
+
+        [HttpGet("MostExpensiveProduct")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<object>> MostExpensiveProduct()
+        {
+            var r = await _unitOfWork.Productos.MostExpensiveProduct();
+            return new  { Nombre = r.Nombre };
+        }
+
+        [HttpGet("NameBestSoldProduct")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<object>> NameBestSoldProduct()
+        {
+            var r = await _unitOfWork.Productos.NameBestSoldProduct();
+            return new  { Nombre = r.Nombre };
+        }
+        [HttpGet("ProductsHaveBeenBought")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<ProductoDto>>> ProductsHaveBeenBought()
+        {
+            var r = await _unitOfWork.Productos.ProductsHaveBeenBought();
+            return _mapper.Map<List<ProductoDto>>(r);
         }
     }
 }

@@ -118,5 +118,12 @@ namespace API.Controllers
             var average = await _unitOfWork.Pagos.AveragePaymentIn2009();
             return Ok(new Dictionary<string, object>() { { "Media de pagos en 2009", average } });
         }
+        [HttpGet("TotalPaymentsPerYear")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<object>>> TotalPaymentsPerYear()
+        {
+            var r = await _unitOfWork.Pagos.TotalPaymentsPerYear();
+            return Ok(r);
+        }
     }
 }

@@ -214,52 +214,82 @@ namespace API.Controllers
 
         [HttpGet("HowManyCustomersPerCountry")]
         [MapToApiVersion("1.0")]
-        public async Task<
-            ActionResult<IEnumerable<object>>
-        > HowManyCustomersPerCountry()
+        public async Task<ActionResult<IEnumerable<object>>> HowManyCustomersPerCountry()
         {
             var c = await _unitOfWork.Clientes.CustomersGruopedByCountry();
             var r = c.Select(x => new { Pais = x.Key, Total = x.Count() }).ToList();
             return r;
         }
+
         [HttpGet("HowManyCustomersInMadridCity")]
         [MapToApiVersion("1.0")]
-        public async Task<
-            ActionResult<object>
-        > HowManyCustomersInMadridCity()
+        public async Task<ActionResult<object>> HowManyCustomersInMadridCity()
         {
             var c = await _unitOfWork.Clientes.CustomersInMadridCity();
             var r = new { NumeroDeClientesEnMadrid = c };
             return r;
         }
+
         [HttpGet("CustomersInCitiesWhichStartWithM")]
         [MapToApiVersion("1.0")]
-        public async Task<
-            ActionResult<object>
-        > CustomersInCitiesWhichStartWithM()
+        public async Task<ActionResult<object>> CustomersInCitiesWhichStartWithM()
         {
             var c = await _unitOfWork.Clientes.CustomersInCitiesWhichStartWithM();
             var r = new { NumeroDeClientesEnCiudadesQueEmpiezanConM = c };
             return r;
         }
+
         [HttpGet("CustomersWhoHaveNoAssignedEmployee")]
         [MapToApiVersion("1.0")]
-        public async Task<
-            ActionResult<object>
-        > CustomersWhoHaveNoAssignedEmployee()
+        public async Task<ActionResult<object>> CustomersWhoHaveNoAssignedEmployee()
         {
             var c = await _unitOfWork.Clientes.CustomersWhoHaveNoAssignedEmployee();
             var r = new { NumeroDeClientesSinRepresentanteAsignado = c };
             return r;
         }
+
         [HttpGet("CustomersWithPaymentDates")]
         [MapToApiVersion("1.0")]
         public async Task<
             ActionResult<IEnumerable<ClienteConFechasDto>>
-        > CustomersWithPaymentDates ()
+        > CustomersWithPaymentDates()
         {
             var r = await _unitOfWork.Clientes.CustomersWithPayments();
             return _mapper.Map<List<ClienteConFechasDto>>(r);
+        }
+
+        [HttpGet("CustomerWithTheHighestLoan")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<object>> CustomerWithTheHighestLoan()
+        {
+            var r = await _unitOfWork.Clientes.CustomerWithTheHighestLoan();
+            return Ok(new { ClienteConElCreditoMasAlto = r.Nombre_Cliente });
+        }
+
+        [HttpGet("CustomerWithOverPaymentLoan")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<ClienteDto>>> CustomerWithOverPaymentLoan()
+        {
+            var r = await _unitOfWork.Clientes.CustomerWithOverPaymentLoan();
+            return _mapper.Map<List<ClienteDto>>(r);
+        }
+
+        [HttpGet("CustomersWhoHaveBeenMadePayments")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<ClienteDto>>> CustomersWhoHaveBeenMadePayments()
+        {
+            var r = await _unitOfWork.Clientes.CustomersWhoHaveBeenMadePayments();
+            return _mapper.Map<List<ClienteDto>>(r);
+        }
+
+        [HttpGet("CustomersWithTotalOrders")]
+        [MapToApiVersion("1.0")]
+        public async Task<
+            ActionResult<IEnumerable<ClientesConTotalDePedidos>>
+        > CustomersWithTotalOrders()
+        {
+            var r = await _unitOfWork.Clientes.CustomersWithOrders();
+            return _mapper.Map<List<ClientesConTotalDePedidos>>(r);
         }
     }
 }

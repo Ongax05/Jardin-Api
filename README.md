@@ -210,77 +210,77 @@
 
 43. Lista las ventas totales de los productos que hayan facturado más de 3000 euros. Se mostrará el nombre, unidades vendidas, total facturado y total facturado con impuestos (21% IVA).
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Producto/Products3000EandIVA
 ```
 
 44. Muestre la suma total de todos los pagos que se realizaron para cada uno de los años que aparecen en la tabla pagos.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Pago/TotalPaymentsPerYear
 ```
 
 45. Devuelve el nombre del cliente con mayor límite de crédito.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/CustomerWithTheHighestLoan
 ```
 
 46. Devuelve el nombre del producto que tenga el precio de venta más caro.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Producto/MostExpensiveProduct
 ```
 
 47. Devuelve el nombre del producto del que se han vendido más unidades. (Tenga en cuenta que tendrá que calcular cuál es el número total de unidades que se han vendido de cada producto a partir de los datos de la tabla detalle_pedido)
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Producto/NameBestSoldProduct
 ```
 
 48. Los clientes cuyo límite de crédito sea mayor que los pagos que haya realizado. (Sin utilizar INNER JOIN).
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/CustomerWithOverPaymentLoan
 ```
 
 49. Devuelve el nombre del cliente con mayor límite de crédito.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/CustomerWithTheHighestLoan
 ```
 
 50. Devuelve el nombre del producto que tenga el precio de venta más caro.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Producto/MostExpensiveProduct
 ```
 
 51. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/CustomersWhoHaveNotMadePayments
 ```
 
 52. Devuelve un listado que muestre solamente los clientes que sí han realizado algún pago.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/CustomersWhoHaveBeenMadePayments
 ```
 
 53. Devuelve un listado de los productos que nunca han aparecido en un pedido.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Producto/ProductsHaveBeenBought
 ```
 
 54. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos empleados que no sean representante de ventas de ningún cliente
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Empleado/EmployeesWhoHaveNoAssociatedCustomersWithOfficeSpecificDto
 ```
 
 55. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/CustomersWhoHaveNotMadePayments
 ```
 
 56. Devuelve un listado que muestre solamente los clientes que sí han realizado algún pago.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/CustomersWhoHaveBeenMadePayments
 ```
 
 57. Devuelve el listado de clientes indicando el nombre del cliente y cuántos pedidos ha realizado. Tenga en cuenta que pueden existir clientes que no han realizado ningún pedido.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/CustomersWithTotalOrders
 ```
 
 58. Devuelve el nombre de los clientes que hayan hecho pedidos en 2008 ordenados alfabéticamente de menor a mayor.

@@ -26,7 +26,11 @@ namespace API.Profiles
             CreateMap<Pago, PagoFormaDto>().ReverseMap();
             CreateMap<Cliente, ClienteNombreDto>().ReverseMap();
             CreateMap<Empleado, EmpleadoConOficinaDto>().ReverseMap();
+            CreateMap<Empleado, EmpleadoConOficinaEspecifico>().ReverseMap();
 
+            CreateMap<Cliente, ClientesConTotalDePedidos>()
+                .ForMember(dest => dest.Pedidos_Totales, opt => opt.MapFrom(en => en.Pedidos.Count))
+                .ReverseMap();
             CreateMap<Producto, ProductoConCuantosVendidosDto>()
                 .ForMember(
                     dest => dest.Unidades_Vendidas,

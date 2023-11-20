@@ -40,6 +40,16 @@ namespace Aplication.Repository
             return r;
         }
 
+        public async Task<IEnumerable<Cliente>> CustomersWhoHaveBeenMadePayments()
+        {
+            var r = await context
+                .Clientes
+                .Include(c => c.Pagos)
+                .Where(c => c.Pagos.Count != 0)
+                .ToListAsync();
+            return r;
+        }
+
         public async Task<int> CustomersWhoHaveNoAssignedEmployee()
         {
             var r = await context.Clientes.Where(c => c.EmpleadoId == null).CountAsync();
@@ -61,6 +71,12 @@ namespace Aplication.Repository
             return r;
         }
 
+        public async Task<IEnumerable<Cliente>> CustomersWithOrders()
+        {
+            var r = await context.Clientes.Include(p => p.Pedidos).ToListAsync();
+            return r;
+        }
+
         public async Task<IEnumerable<Cliente>> CustomersWithOrdersButNotPayments()
         {
             var r = await context
@@ -77,6 +93,25 @@ namespace Aplication.Repository
                 .Where(p => p.Pagos.Count != 0)
                 .Include(c => c.Pagos)
                 .ToListAsync();
+            return r;
+        }
+
+        public async Task<IEnumerable<Cliente>> CustomerWithOverPaymentLoan()
+        {
+            var r = await context
+                .Clientes
+                .Include(p => p.Pagos)
+                .Where(p => p.Pagos.Sum(x => x.Total) > p.Limite_Credito)
+                .ToListAsync();
+            return r;
+        }
+
+        public async Task<Cliente> CustomerWithTheHighestLoan()
+        {
+            var r = await context
+                .Clientes
+                .OrderByDescending(p => p.Limite_Credito)
+                .FirstOrDefaultAsync();
             return r;
         }
 

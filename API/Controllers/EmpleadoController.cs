@@ -142,5 +142,14 @@ namespace API.Controllers
             var r = await _unitOfWork.Empleados.SalesRepresentativesEmployees();
             return _mapper.Map<List<EmpleadoNombreCuantosClientes>>(r);
         }
+        [HttpGet("EmployeesWhoHaveNoAssociatedCustomersWithOfficeSpecificDto")]
+        [MapToApiVersion("1.0")]
+        public async Task<
+            ActionResult<IEnumerable<EmpleadoConOficinaEspecifico>>
+        > EmployeesWhoHaveNoAssociatedCustomersWithOfficeSpecificDto()
+        {
+            var r = await _unitOfWork.Empleados.EmployeesWhoHaveNoAssociatedCustomersWithOffice();
+            return _mapper.Map<List<EmpleadoConOficinaEspecifico>>(r);
+        }
     }
 }

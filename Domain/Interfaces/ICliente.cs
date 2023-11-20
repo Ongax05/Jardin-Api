@@ -23,5 +23,9 @@ namespace Domain.Interfaces
         Task<int> CustomersInCitiesWhichStartWithM();
         Task<int> CustomersWhoHaveNoAssignedEmployee();
         Task<IEnumerable<Cliente>> CustomersWithPayments ();
+        Task<Cliente> CustomerWithTheHighestLoan();
+        Task<IEnumerable<Cliente>> CustomerWithOverPaymentLoan ();
+        Task<IEnumerable<Cliente>> CustomersWhoHaveBeenMadePayments();
+        Task<IEnumerable<Cliente>> CustomersWithOrders ();
     }
 }
