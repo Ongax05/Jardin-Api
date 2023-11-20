@@ -27,5 +27,7 @@ namespace Domain.Interfaces
         Task<IEnumerable<Cliente>> CustomerWithOverPaymentLoan ();
         Task<IEnumerable<Cliente>> CustomersWhoHaveBeenMadePayments();
         Task<IEnumerable<Cliente>> CustomersWithOrders ();
+        Task<IEnumerable<Cliente>> CustomersWhoHaveBoughtIn2008Sorted ();
+        Task<IEnumerable<Cliente>> CustomersWithTheirNameSalesRepresentativeAndOfficeCity();
     }
 }

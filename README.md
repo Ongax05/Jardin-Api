@@ -285,20 +285,20 @@
 
 58. Devuelve el nombre de los clientes que hayan hecho pedidos en 2008 ordenados alfabéticamente de menor a mayor.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/CustomersWhoHaveBoughtIn2008Sorted
 ```
 
 59. Devuelve el nombre del cliente, el nombre y primer apellido de su representante de ventas y el número de teléfono de la oficina del representante de ventas, de aquellos clientes que no hayan realizado ningún pago.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/GetClientsWithRepSalInfoIfDontHavePaymentsWithOficceTel
 ```
 
 60. Devuelve el listado de clientes donde aparezca el nombre del cliente, el nombre y primer apellido de su representante de ventas y la ciudad donde está su oficina.
 ``` c#
-    http://localhost:5181
+    http://localhost:5181/api/Cliente/CustomersWithTheirNameSalesRepresentativeAndOfficeCity
 ```
 
 61. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos empleados que no sean representante de ventas de ningún cliente.
 ``` c#
-        http://localhost:5181
+    http://localhost:5181/api/Empleado/EmployeesWhoHaveNoAssociatedCustomersWithOfficeSpecificDto
 ```

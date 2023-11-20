@@ -107,6 +107,17 @@ namespace API.Profiles
                     opt => opt.MapFrom(en => en.Empleado.Oficina.Ciudad)
                 )
                 .ReverseMap();
+            CreateMap<Cliente, GetClientsWithRepSalInfoIfDontHavePaymentsWithOficceTel>()
+                .ForMember(dest => dest.Nombre_RepSal, opt => opt.MapFrom(en => en.Empleado.Nombre))
+                .ForMember(
+                    dest => dest.Apellido_RepSal,
+                    opt => opt.MapFrom(en => en.Empleado.Apellido1)
+                )
+                .ForMember(
+                    dest => dest.Telefono_Oficina,
+                    opt => opt.MapFrom(en => en.Empleado.Oficina.Telefono)
+                )
+                .ReverseMap();
         }
     }
 }

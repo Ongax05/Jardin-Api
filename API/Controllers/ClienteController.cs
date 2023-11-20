@@ -291,5 +291,28 @@ namespace API.Controllers
             var r = await _unitOfWork.Clientes.CustomersWithOrders();
             return _mapper.Map<List<ClientesConTotalDePedidos>>(r);
         }
+        [HttpGet("CustomersWhoHaveBoughtIn2008Sorted")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<ClienteDto>>> CustomersWhoHaveBoughtIn2008Sorted()
+        {
+            var r = await _unitOfWork.Clientes.CustomersWhoHaveBoughtIn2008Sorted();
+            return _mapper.Map<List<ClienteDto>>(r);
+        }
+        [HttpGet("GetClientsWithRepSalInfoIfDontHavePaymentsWithOficceTel")]
+        [MapToApiVersion("1.0")]
+        public async Task<
+            ActionResult<List<GetClientsWithRepSalInfoIfDontHavePaymentsWithOficceTel>>
+        > GetClientsWithRepSalInfoIfDontHavePaymentsWithOficceTel()
+        {
+            var r = await _unitOfWork.Clientes.GetClientsWithRepSalInfoIfDontHavePayments();
+            return _mapper.Map<List<GetClientsWithRepSalInfoIfDontHavePaymentsWithOficceTel>>(r);
+        }
+        [HttpGet("CustomersWithTheirNameSalesRepresentativeAndOfficeCity")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<ClientsWithRepSalInfoPlusOfficeCityDto>>> CustomersWithTheirNameSalesRepresentativeAndOfficeCity()
+        {
+            var r = await _unitOfWork.Clientes.CustomersWithTheirNameSalesRepresentativeAndOfficeCity();
+            return _mapper.Map<List<ClientsWithRepSalInfoPlusOfficeCityDto>>(r);
+        }
     }
 }

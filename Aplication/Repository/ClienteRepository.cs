@@ -27,8 +27,7 @@ namespace Aplication.Repository
 
         public async Task<int> CustomersInCitiesWhichStartWithM()
         {
-            var r = await context
-                .Clientes
+            var r = await context.Clientes
                 .Where(c => c.Ciudad.ToLower().StartsWith("m"))
                 .CountAsync();
             return r;
@@ -42,10 +41,23 @@ namespace Aplication.Repository
 
         public async Task<IEnumerable<Cliente>> CustomersWhoHaveBeenMadePayments()
         {
-            var r = await context
-                .Clientes
+            var r = await context.Clientes
                 .Include(c => c.Pagos)
                 .Where(c => c.Pagos.Count != 0)
+                .ToListAsync();
+            return r;
+        }
+
+        public async Task<IEnumerable<Cliente>> CustomersWhoHaveBoughtIn2008Sorted()
+        {
+            var ClientIds = await context.Pedidos
+                .Where(p => p.Fecha_Pedido.Year == 2008)
+                .Select(p => p.ClienteId)
+                .Distinct()
+                .ToListAsync();
+            var r = await context.Clientes
+                .Where(c => ClientIds.Contains(c.Id))
+                .OrderBy(c => c.Nombre_Cliente)
                 .ToListAsync();
             return r;
         }
@@ -64,8 +76,7 @@ namespace Aplication.Repository
 
         public async Task<IEnumerable<Cliente>> CustomersWhoHaveNotMadePaymentsOrPlacedOrders()
         {
-            var r = await context
-                .Clientes
+            var r = await context.Clientes
                 .Where(c => c.Pagos.Count == 0 && c.Pedidos.Count == 0)
                 .ToListAsync();
             return r;
@@ -79,8 +90,7 @@ namespace Aplication.Repository
 
         public async Task<IEnumerable<Cliente>> CustomersWithOrdersButNotPayments()
         {
-            var r = await context
-                .Clientes
+            var r = await context.Clientes
                 .Where(c => c.Pagos.Count == 0 && c.Pedidos.Count != 0)
                 .ToListAsync();
             return r;
@@ -88,18 +98,27 @@ namespace Aplication.Repository
 
         public async Task<IEnumerable<Cliente>> CustomersWithPayments()
         {
-            var r = await context
-                .Clientes
+            var r = await context.Clientes
                 .Where(p => p.Pagos.Count != 0)
                 .Include(c => c.Pagos)
                 .ToListAsync();
             return r;
         }
 
+        public async Task<
+            IEnumerable<Cliente>
+        > CustomersWithTheirNameSalesRepresentativeAndOfficeCity()
+        {
+            var r = await context.Clientes
+                .Include(c => c.Empleado)
+                .ThenInclude(e => e.Oficina)
+                .ToListAsync();
+            return r;
+        }
+
         public async Task<IEnumerable<Cliente>> CustomerWithOverPaymentLoan()
         {
-            var r = await context
-                .Clientes
+            var r = await context.Clientes
                 .Include(p => p.Pagos)
                 .Where(p => p.Pagos.Sum(x => x.Total) > p.Limite_Credito)
                 .ToListAsync();
@@ -108,8 +127,7 @@ namespace Aplication.Repository
 
         public async Task<Cliente> CustomerWithTheHighestLoan()
         {
-            var r = await context
-                .Clientes
+            var r = await context.Clientes
                 .OrderByDescending(p => p.Limite_Credito)
                 .FirstOrDefaultAsync();
             return r;
@@ -117,8 +135,7 @@ namespace Aplication.Repository
 
         public async Task<IEnumerable<Cliente>> GetClientsFromMadridWithEmployeeRepresentant30Or11()
         {
-            var r = await context
-                .Clientes
+            var r = await context.Clientes
                 .Where(
                     c =>
                         c.Ciudad.ToLower() == "madrid" && (c.EmpleadoId == 11 || c.EmpleadoId == 30)
@@ -143,8 +160,7 @@ namespace Aplication.Repository
 
         public async Task<IEnumerable<Cliente>> GetClientsWithRepSalInfoIfDontHavePayments()
         {
-            var r = await context
-                .Clientes
+            var r = await context.Clientes
                 .Where(p => p.Pagos.Count == 0)
                 .Include(c => c.Empleado)
                 .ThenInclude(c => c.Oficina)
@@ -154,8 +170,7 @@ namespace Aplication.Repository
 
         public async Task<IEnumerable<Cliente>> GetClientsWithRepSalInfoIfHavePayments()
         {
-            var r = await context
-                .Clientes
+            var r = await context.Clientes
                 .Where(p => p.Pagos.Count > 0)
                 .Include(c => c.Empleado)
                 .ThenInclude(c => c.Oficina)
@@ -171,8 +186,7 @@ namespace Aplication.Repository
 
         public async Task<IEnumerable<Cliente>> RangesPurchasedByEachCustomer()
         {
-            var r = await context
-                .Clientes
+            var r = await context.Clientes
                 .Include(p => p.Empleado)
                 .Include(p => p.Pedidos)
                 .ThenInclude(p => p.Detalles_Pedidos)
