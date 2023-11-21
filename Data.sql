@@ -1,4 +1,14 @@
 USE jardin;
+
+INSERT INTO rol VALUES (1,"Admin");
+INSERT INTO rol VALUES (2,"Manager");
+INSERT INTO rol VALUES (3,"Employee");
+
+INSERT INTO user VALUES (1,"Admin","Admin@Admin.com","AQAAAAIAAYagAAAAEOAa5XPcriRFZd4lbJGSy8aLfxlAhWhG9Uke4pZzK/k78aH5bQiaK9xvHqEG1g2b6g==");
+
+INSERT INTO userrol VALUES (1,1)
+INSERT INTO userrol VALUES (1,3)
+
 INSERT INTO oficina VALUES ('BCN-ES','Barcelona','España','Barcelona','08019','+34 93 3561182','Avenida Diagonal, 38','3A escalera Derecha');
 INSERT INTO oficina VALUES ('BOS-USA','Boston','EEUU','MA','02108','+1 215 837 0825','1550 Court Place','Suite 102');
 INSERT INTO oficina VALUES ('LON-UK','Londres','Inglaterra','EMEA','EC2N 1HN','+44 20 78772041','52 Old Broad Street','Ground Floor');
